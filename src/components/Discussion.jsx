@@ -105,6 +105,19 @@ const Home = ({ issues, setIssues }) => {
     }
   }
 
+  const handleSpeak = (text) => {
+    // Check if SpeechSynthesis API is available
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'en-US' // Optional: Set language
+      utterance.pitch = 1 // Set pitch level (1 is default)
+      utterance.rate = 1 // Set speaking rate (1 is default)
+      window.speechSynthesis.speak(utterance)
+    } else {
+      console.log("Text-to-speech is not supported in this browser.")
+    }
+  }
+
   const Reply = ({ issueId, reply, level = 0 }) => {
     const replyKey = level > 0 ? reply._id : issueId
 
@@ -126,6 +139,8 @@ const Home = ({ issues, setIssues }) => {
             }))}>
             <HiReply />
           </div>
+          {/* Speak Button */}
+          <button onClick={() => handleSpeak(commentText)}>🔊 Speak</button>
         </div>
         {showNestedReplyInput[reply._id] && (
           <div className="reply-form">
@@ -169,6 +184,8 @@ const Home = ({ issues, setIssues }) => {
                 }>
                 <HiReply />
               </div>
+              {/* Speak Button */}
+              <button onClick={() => handleSpeak(issue.comment)}>🔊 Speak</button>
             </div>
             {showMainReplyInput[issue._id] && (
               <div className="reply-form">
