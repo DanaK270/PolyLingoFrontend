@@ -6,6 +6,10 @@ import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
 import { CheckSession } from './services/auth'
+import ExerciseList from './pages/ExerciseList'
+import ExerciseForm from './pages/ExerciseForm'
+import ExerciseDetail from './pages/ExerciseDetail'
+import axios from 'axios'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -64,6 +68,10 @@ const App = () => {
             />
           }
         />
+        <Route path="/exercises" element={<ExerciseList />} />
+        <Route path="/exercises/add" element={<ExerciseForm />} />
+        <Route path="/exercises/edit/:id" element={<ExerciseForm />} />
+        <Route path="/exercises/:id" element={<ExerciseDetail />} />
       </Routes>
     </div>
   )
