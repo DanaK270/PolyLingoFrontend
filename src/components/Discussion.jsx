@@ -13,18 +13,18 @@ const Home = ({ issues, setIssues }) => {
   const issuesRef = useRef(null)
 
   useEffect(() => {
-    const fetchIssues = async () => {
-      if (issuesRef.current) return
-      try {
-        const response = await axios.get('http://localhost:3001/issues')
-        setIssues(response.data)
-        issuesRef.current = response.data
-      } catch (err) {
-        console.error('Error fetching issues:', err)
+    if (issues.length === 0) {
+      const fetchIssues = async () => {
+        try {
+          const response = await axios.get('http://localhost:3001/issues')
+          setIssues(response.data)
+        } catch (err) {
+          console.error('Error fetching issues:', err)
+        }
       }
+      fetchIssues()
     }
-    fetchIssues()
-  }, [setIssues])
+  }, [setIssues, issues])
 
   const handleChange = (event) => {
     setFormState({ ...formState, [event.target.id]: event.target.value })
@@ -95,13 +95,27 @@ const Home = ({ issues, setIssues }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/issues', formState)
-      setIssues((prevIssues) => [...prevIssues, response.data])
-      setFormState(initialState)
+      const response = await axios.post('http://localhost:3001/issues', formState);
+      setIssues((prevIssues) => [...prevIssues, response.data]);
+      setFormState(initialState); // Reset form
     } catch (err) {
-      console.error('Error submitting issue:', err)
+      console.error('Error submitting issue:', err);
+    }
+  }
+  
+
+  const handleSpeak = (text) => {
+    // Check if SpeechSynthesis API is available
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'en-US' // Optional: Set language
+      utterance.pitch = 1 // Set pitch level (1 is default)
+      utterance.rate = 1 // Set speaking rate (1 is default)
+      window.speechSynthesis.speak(utterance)
+    } else {
+      console.log("Text-to-speech is not supported in this browser.")
     }
   }
 
@@ -126,6 +140,8 @@ const Home = ({ issues, setIssues }) => {
             }))}>
             <HiReply />
           </div>
+          {/* Speak Button */}
+          <button onClick={() => handleSpeak(commentText)}>🔊 Speak</button>
         </div>
         {showNestedReplyInput[reply._id] && (
           <div className="reply-form">
@@ -169,6 +185,8 @@ const Home = ({ issues, setIssues }) => {
                 }>
                 <HiReply />
               </div>
+              {/* Speak Button */}
+              <button onClick={() => handleSpeak(issue.comment)}>🔊 Speak</button>
             </div>
             {showMainReplyInput[issue._id] && (
               <div className="reply-form">

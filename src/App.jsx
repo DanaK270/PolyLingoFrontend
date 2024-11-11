@@ -8,6 +8,17 @@ import Discussion from './components/Discussion'
 import UserNotes from './components/UserNotes'
 import axios from 'axios'
 import { CheckSession } from './services/auth'
+import Translate from './components/Translation'
+
+import Discussion2 from './components/Discussion2'
+import Main from './components/Main'
+
+import { CheckSession } from './services/auth'
+import ExerciseList from './pages/ExerciseList'
+import ExerciseForm from './pages/ExerciseForm'
+import ExerciseDetail from './pages/ExerciseDetail'
+import axios from 'axios'
+
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -35,6 +46,9 @@ const App = () => {
       let res = await axios.get('http://localhost:3001/issues')
       console.log('Fetched issues:', res.data) // Verify the data structure
       setIssues(res.data) // This should update your issues state
+      let res = await axios.get('http://localhost:3001/issues')
+      console.log('Fetched issues:', res.data) // Verify the data structure
+      setIssues(res.data) // This should update your issues state
     } catch (err) {
       console.log('Error fetching issues:', err)
     }
@@ -56,6 +70,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
+
         <Route path="userNote" element={<UserNotes userId={user} />} />
         <Route
           path="/discuss"
@@ -67,6 +82,28 @@ const App = () => {
             />
           }
         />
+
+        <Route path="/translate" element={<Translate  />} />
+
+        <Route path="/discuss2" element={<Discussion2 issues={issues} setIssues={setIssues} />} />
+        <Route path="/main" element={<Main issues={issues} setIssues={setIssues} />} />
+
+        <Route
+          path="/discuss"
+          element={
+            <Discussion
+              getIssues={getIssues}
+              issues={issues}
+              setIssues={setIssues}
+            />
+          }
+        />
+        <Route path="/exercises" element={<ExerciseList />} />
+        <Route path="/exercises/add" element={<ExerciseForm />} />
+        <Route path="/exercises/edit/:id" element={<ExerciseForm />} />
+        <Route path="/exercises/:id" element={<ExerciseDetail />} />
+
+
       </Routes>
     </div>
   )
