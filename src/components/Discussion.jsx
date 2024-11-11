@@ -13,18 +13,18 @@ const Home = ({ issues, setIssues }) => {
   const issuesRef = useRef(null)
 
   useEffect(() => {
-    const fetchIssues = async () => {
-      if (issuesRef.current) return
-      try {
-        const response = await axios.get('http://localhost:3001/issues')
-        setIssues(response.data)
-        issuesRef.current = response.data
-      } catch (err) {
-        console.error('Error fetching issues:', err)
+    if (issues.length === 0) {
+      const fetchIssues = async () => {
+        try {
+          const response = await axios.get('http://localhost:3001/issues')
+          setIssues(response.data)
+        } catch (err) {
+          console.error('Error fetching issues:', err)
+        }
       }
+      fetchIssues()
     }
-    fetchIssues()
-  }, [setIssues])
+  }, [setIssues, issues])
 
   const handleChange = (event) => {
     setFormState({ ...formState, [event.target.id]: event.target.value })
@@ -95,15 +95,16 @@ const Home = ({ issues, setIssues }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/issues', formState)
-      setIssues((prevIssues) => [...prevIssues, response.data])
-      setFormState(initialState)
+      const response = await axios.post('http://localhost:3001/issues', formState);
+      setIssues((prevIssues) => [...prevIssues, response.data]);
+      setFormState(initialState); // Reset form
     } catch (err) {
-      console.error('Error submitting issue:', err)
+      console.error('Error submitting issue:', err);
     }
   }
+  
 
   const handleSpeak = (text) => {
     // Check if SpeechSynthesis API is available

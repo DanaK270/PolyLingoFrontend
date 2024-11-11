@@ -5,6 +5,8 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
+import Discussion2 from './components/Discussion2'
+import Main from './components/Main'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -58,6 +60,8 @@ const App = () => {
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
         <Route path="/discuss" element={<Discussion getIssues={getIssues} issues={issues} setIssues={setIssues} />} />
+        <Route path="/discuss2" element={<Discussion2 issues={issues} setIssues={setIssues} />} />
+        <Route path="/main" element={<Main issues={issues} setIssues={setIssues} />} />
       </Routes>
     </div>
   )
