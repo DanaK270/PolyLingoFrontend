@@ -5,6 +5,7 @@ import {
   updateExercise
 } from '../services/exerise'
 import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const ExerciseForm = () => {
   const [exerciseData, setExerciseData] = useState({
@@ -14,12 +15,23 @@ const ExerciseForm = () => {
     options: ['', '', '', ''],
     hints: ''
   })
+  const [lessons, setLessons] = useState([])
   const navigate = useNavigate()
   const { id } = useParams()
 
   useEffect(() => {
+    fetchLessons()
     if (id) fetchExercise()
   }, [id])
+
+  const fetchLessons = async () => {
+    try {
+      const res = await axios.get('http://localhost:3001/lessons')
+      setLessons(res.data)
+    } catch (error) {
+      console.error('Error fetching lessons:', error)
+    }
+  }
 
   const fetchExercise = async () => {
     const response = await getExerciseById(id)
@@ -50,14 +62,20 @@ const ExerciseForm = () => {
     <div>
       <h2>{id ? 'Edit' : 'Add'} Exercise</h2>
       <form onSubmit={handleSubmit}>
-        <label>Lesson ID:</label>
-        <input
-          type="text"
+        <label>Lesson:</label>
+        <select
           name="lessonId"
           value={exerciseData.lessonId}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="">Select a lesson</option>
+          {lessons.map((lesson) => (
+            <option key={lesson._id} value={lesson._id}>
+              {lesson.title}
+            </option>
+          ))}
+        </select>
 
         <label>Question:</label>
         <textarea
