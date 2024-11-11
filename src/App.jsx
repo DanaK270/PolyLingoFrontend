@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
+import Translate from './components/Translation'
 
 import Discussion2 from './components/Discussion2'
 import Main from './components/Main'
@@ -65,6 +66,9 @@ const App = () => {
         <Route path="register" element={<Register />} />
 
         <Route path="/discuss" element={<Discussion getIssues={getIssues} issues={issues} setIssues={setIssues} />} />
+
+        <Route path="/translate" element={<Translate  />} />
+
         <Route path="/discuss2" element={<Discussion2 issues={issues} setIssues={setIssues} />} />
         <Route path="/main" element={<Main issues={issues} setIssues={setIssues} />} />
 
@@ -82,6 +86,7 @@ const App = () => {
         <Route path="/exercises/add" element={<ExerciseForm />} />
         <Route path="/exercises/edit/:id" element={<ExerciseForm />} />
         <Route path="/exercises/:id" element={<ExerciseDetail />} />
+
 
       </Routes>
     </div>
