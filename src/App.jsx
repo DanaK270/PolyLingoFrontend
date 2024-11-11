@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
+import Translate from './components/Translation'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
         <Route path="/discuss" element={<Discussion getIssues={getIssues} issues={issues} setIssues={setIssues} />} />
+        <Route path="/translate" element={<Translate  />} />
       </Routes>
     </div>
   )
