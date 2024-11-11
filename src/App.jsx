@@ -9,6 +9,8 @@ import Translate from './components/Translation'
 
 import Discussion2 from './components/Discussion2'
 import Main from './components/Main'
+import LessonDetails from './components/LessonDetails'
+import LanguageDetails from './components/LanguageDetails'
 
 import { CheckSession } from './services/auth'
 import ExerciseList from './pages/ExerciseList'
@@ -71,6 +73,8 @@ const App = () => {
 
         <Route path="/discuss2" element={<Discussion2 issues={issues} setIssues={setIssues} />} />
         <Route path="/main" element={<Main issues={issues} setIssues={setIssues} />} />
+        <Route path="/languages/:languageId" element={<LanguageDetails issues={issues} setIssues={setIssues} />} />
+        <Route path="/lessons/:lessonId" element={<LessonDetails issues={issues} setIssues={setIssues} />} />
 
         <Route
           path="/discuss"
