@@ -5,10 +5,13 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
+import UserNotes from './components/UserNotes'
+import axios from 'axios'
+import { CheckSession } from './services/auth'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  const [issues, setIssues] = useState([]);
+  const [issues, setIssues] = useState([])
   let navigate = useNavigate()
 
   const handleLogOut = () => {
@@ -29,27 +32,23 @@ const App = () => {
 
   const getIssues = async () => {
     try {
-      let res = await axios.get('http://localhost:3001/issues');
-      console.log('Fetched issues:', res.data);  // Verify the data structure
-      setIssues(res.data);  // This should update your issues state
+      let res = await axios.get('http://localhost:3001/issues')
+      console.log('Fetched issues:', res.data) // Verify the data structure
+      setIssues(res.data) // This should update your issues state
     } catch (err) {
-      console.log('Error fetching issues:', err);
+      console.log('Error fetching issues:', err)
     }
-  };
-  
-
-
-
+  }
 
   useEffect(() => {
-    getIssues();
+    getIssues()
     const token = localStorage.getItem('token')
     if (token) {
       ;(async () => {
         await checkToken()
       })()
     }
-  }, [])
+  }, [setUser])
 
   return (
     <div>
@@ -57,7 +56,17 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
-        <Route path="/discuss" element={<Discussion getIssues={getIssues} issues={issues} setIssues={setIssues} />} />
+        <Route path="userNote" element={<UserNotes userId={user} />} />
+        <Route
+          path="/discuss"
+          element={
+            <Discussion
+              getIssues={getIssues}
+              issues={issues}
+              setIssues={setIssues}
+            />
+          }
+        />
       </Routes>
     </div>
   )
