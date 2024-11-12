@@ -6,7 +6,7 @@ import Home from "./pages/Home"
 import SignIn from "./pages/Signin"
 import Discussion from "./components/Discussion"
 import Translate from "./components/Translation"
-
+import UserNotes from "./components/UserNotes"
 import Discussion2 from "./components/Discussion2"
 import Main from "./components/Main"
 import LessonDetails from "./components/LessonDetails"
@@ -66,7 +66,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
-
+        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
         <Route
           path="/discuss"
           element={
