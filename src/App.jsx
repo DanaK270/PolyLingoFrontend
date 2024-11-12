@@ -1,11 +1,17 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { useNavigate, Route, Routes } from 'react-router-dom'
+import axios from 'axios'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
-
+import LanguageCard from './components/LessonCard'
+import LanguageList from './pages/LanguageList'
+import EditLanguageForm from './components/EditLanguageForm'
+import Nav from './components/Nav'
+import CreateLanguageForm from './components/newLesson'
+import LanguageDetails from './pages/LanguageDetails'
 const App = () => {
   const [user, setUser] = useState(null)
   const [issues, setIssues] = useState([]);
@@ -37,10 +43,6 @@ const App = () => {
     }
   };
   
-
-
-
-
   useEffect(() => {
     getIssues();
     const token = localStorage.getItem('token')
@@ -53,12 +55,31 @@ const App = () => {
 
   return (
     <div>
+       <Nav user={user} handleLogOut={handleLogOut} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
         <Route path="/discuss" element={<Discussion getIssues={getIssues} issues={issues} setIssues={setIssues} />} />
-      </Routes>
+     
+      <Route path="/languages" element={<LanguageList user={user} />} />
+            {/* <Route
+              path="/myLanguages"
+              element={<UserCourse user={user} />}
+            /> */}
+            <Route
+              path="/languages/:id"
+              element={<LanguageDetails user={user} />}
+            />
+            <Route
+              path="/languages/edit"
+              element={<EditLanguageForm user={user} />}
+            />
+            <Route
+              path="/languages/createlanguage"
+              element={<CreateLanguageForm />}
+            />
+             </Routes>
     </div>
   )
 }
