@@ -9,7 +9,7 @@ const CreateLanguageForm = () => {
   const [languageName, setLanguageName] = useState("");
   const [difficulties, setDifficulties] = useState("");
   const [description, setDescription] = useState("");
-  const [fields, setFields] = useState([{ name: "", description: "", video: [] }]); // For lessons
+  const [fields, setFields] = useState([{ name: "", description: "", video: [] }]); // Initialize video as an empty array
 
   // Handle changes to lesson fields
   const handleFieldChange = (index, e) => {
@@ -21,7 +21,7 @@ const CreateLanguageForm = () => {
 
   // Add new lesson field
   const handleAddField = () => {
-    setFields([...fields, { name: "", description: "", video: [] }]);
+    setFields([...fields, { name: "", description: "", video: [] }]); // Initialize video as an empty array
   };
 
   // Remove lesson field
@@ -31,20 +31,18 @@ const CreateLanguageForm = () => {
   };
 
   // Handle video upload for a specific lesson
-  const handleVideoUpload = async (index, e) => {
-    try {
-      const file = e.target.files[0];
-      if (file) {
-        // Create the path with hardcoded base (e.g., C:\\videos\\filename)
-        const videoPath = `C:/videos/${file.name}`;
-
-        let fieldsCopy = [...fields];
-        // Ensure the video is stored as an array of strings
-        fieldsCopy[index].video = [videoPath]; // Store the video as an array with the file path string
-        setFields(fieldsCopy);
-      }
-    } catch (error) {
-      console.error("Error uploading video:", error);
+  const handleVideoUpload = (index, e) => {
+    const files = e.target.files; // Get all selected files
+    if (files.length > 0) {
+      const videoPaths = Array.from(files).map((file) => `C:/videos/${file.name}`); // Get the file paths
+      setFields((prevFields) => {
+        const updatedFields = [...prevFields];
+        updatedFields[index] = {
+          ...updatedFields[index],
+          video: [...updatedFields[index].video, ...videoPaths], // Add new video paths to the existing array
+        };
+        return updatedFields;
+      });
     }
   };
 
@@ -60,7 +58,7 @@ const CreateLanguageForm = () => {
       fields: fields.map((field) => ({
         name: field.name,
         description: field.description,
-        video: field.video, // This will be an array of video paths as strings
+        video: field.video, // Video is now an array of paths
       })),
     };
 
@@ -68,8 +66,8 @@ const CreateLanguageForm = () => {
       // Send the data to your backend API
       const response = await axios.post(`${BASE_URL}/language/languages`, formData);
       if (response.status === 200) {
-        // Handle successful submission
         console.log("Language data submitted successfully!");
+        navigate("/success"); // Navigate on success, or handle success feedback
       } else {
         console.error("Error submitting language data");
       }
@@ -127,10 +125,19 @@ const CreateLanguageForm = () => {
                 onChange={(e) => handleFieldChange(index, e)}
                 required
               />
+              <h4>Videos</h4>
+              {field.video && field.video.length > 0 && (
+                <ul>
+                  {field.video.map((videoPath, i) => (
+                    <li key={i}>{videoPath}</li>
+                  ))}
+                </ul>
+              )}
               <input
                 type="file"
                 accept="video/*"
-                onChange={(e) => handleVideoUpload(index, e)}
+                multiple
+                onChange={(e) => handleVideoUpload(index, e)} // Handle multiple file uploads
               />
               <button type="button" onClick={() => handleRemoveField(index)}>
                 Remove Lesson
