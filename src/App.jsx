@@ -64,8 +64,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
+        {/* <Route path="/lesson/:lessonId/userNote" element={<UserNotes />} /> */}
 
-        <Route path="userNote" element={<UserNotes userId={user} />} />
+        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
         <Route
           path="/discuss"
           element={
