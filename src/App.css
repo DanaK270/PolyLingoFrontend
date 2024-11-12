@@ -1,4 +1,3 @@
-
 /* Importing fun fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500&family=Lato:wght@300;400;700&family=Nunito:wght@300;400;600&display=swap');
@@ -55,18 +54,16 @@
 
 .card-body {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 small {
-  padding-right: 20px
+  padding-right: 20px;
 }
 
 h1 {
   text-align: center;
 }
-
-
 
 button {
   padding: 5px 10px;
@@ -114,7 +111,7 @@ button {
 
 .comment-button {
   padding: 5px 10px;
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   border: none;
   border-radius: 3px;
@@ -126,7 +123,7 @@ button {
 }
 
 .reply-button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .reply-button:hover {
@@ -139,13 +136,12 @@ button {
 }
 
 .reply-button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .reply-button:hover {
   background-color: #45a049;
 }
-
 
 .reply-content {
   display: flex;
@@ -153,18 +149,19 @@ button {
   justify-content: space-between; /* Push icon to the right */
 }
 
-
 /* General styling */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f9fd; 
-  color: #333; 
+  background-color: #f4f9fd;
+  color: #333;
   text-align: center;
 }
 
 /* Heading styles */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: 'Pacifico', cursive; /* Fun and engaging font */
   color: #2a7dff; /* Bright color for headings */
   text-transform: uppercase;
@@ -172,7 +169,9 @@ h1, h2, h3 {
   transition: transform 0.3s ease;
 }
 
-h1:hover, h2:hover, h3:hover {
+h1:hover,
+h2:hover,
+h3:hover {
   transform: scale(1.1); /* Slight hover effect for fun */
 }
 
@@ -198,14 +197,12 @@ form {
 
 /* Issue card */
 
-
 /* Card text */
 .card-text {
   color: #5f6368;
   font-size: 16px;
   padding-left: 20px;
   font-family: 'Playfair Display', serif;
-
 }
 
 /* Reply container - Soft pastel color */
@@ -218,9 +215,6 @@ form {
   margin: 10px !important;
   border: 1px solid #90caf9; /* Lighter blue border */
   font-family: 'Fredoka One', cursive;
-
-
-
 }
 
 /* Replies container */
@@ -244,7 +238,6 @@ form {
   color: #333;
   width: 80%;
   font-family: 'Lato', sans-serif;
-
 }
 
 .reply-form button {
@@ -311,8 +304,9 @@ form {
   text-align: left;
 }
 
-
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: 'Quicksand', sans-serif;
 
   color: #2a7dff; /* Bright color for headings */
@@ -321,20 +315,11 @@ h1, h2, h3 {
   transition: transform 0.3s ease;
 }
 
-h1:hover, h2:hover, h3:hover {
+h1:hover,
+h2:hover,
+h3:hover {
   transform: scale(1.1); /* Slight hover effect for fun */
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /* Global Styles */
 * {
@@ -461,9 +446,15 @@ video {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Animation and Interactivity */
@@ -484,7 +475,6 @@ video {
   margin-bottom: 10px;
   color: #ab47bc;
 }
-
 
 /* LanguageDetails.css */
 
@@ -561,9 +551,6 @@ video {
   margin-top: 20px;
 }
 
-
-
-
 /* LessonDetails.css */
 
 /* Container for the entire lesson details page */
@@ -638,8 +625,6 @@ video {
   margin-top: 20px;
 }
 
-
-
 /* Discussion2.css */
 
 /* Main container for the discussions section */
@@ -660,7 +645,9 @@ video {
 }
 
 /* Loading and no discussions text */
-.loading-text, .no-discussions-text, .no-issues-text {
+.loading-text,
+.no-discussions-text,
+.no-issues-text {
   font-size: 1.2rem;
   color: #ff6f61;
   text-align: center;
@@ -737,27 +724,24 @@ video {
 }
 
 .issue-card {
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border: 1px solid #e0e0e0;
   color: #333;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 15px;
   width: 650px;
 }
 
-.issue-header{
+.issue-header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
-
-
 
 /* Issue Form Styles */
 .issue-form {
   margin-top: 20px;
   margin-left: -470px;
-
 }
 
 .issue-form input {
@@ -785,17 +769,17 @@ video {
 }
 
 .issue-form button:hover {
-  background-color: #17b0a2;  /* Darker teal for hover */
+  background-color: #17b0a2; /* Darker teal for hover */
 }
 
 /* Styles for Empty Issue State */
 .issue-container.empty {
-  background-color: #fff3f3;  /* Light red background for empty or unsubmitted issues */
-  border-left: 5px solid #ff6f61;  /* Red border for emphasis */
+  background-color: #fff3f3; /* Light red background for empty or unsubmitted issues */
+  border-left: 5px solid #ff6f61; /* Red border for emphasis */
 }
 
 .reply-btn.empty {
-  color: #ff6f61;  /* Red color for reply button when no comment is provided */
+  color: #ff6f61; /* Red color for reply button when no comment is provided */
 }
 
 /* General Responsiveness */
@@ -819,33 +803,20 @@ video {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* Default issue container */
 .issue-container {
-  background-color: #1F1F1F; /* Dark gray */
+  background-color: #1f1f1f; /* Dark gray */
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 15px;
-  color: #E0E0E0; /* Light text */
-  
+  color: #e0e0e0; /* Light text */
 }
 
 /* Issue container with replies */
 .issue-container.has-replies {
   background-color: #263238; /* Darker gray */
-  border-left: 5px solid #FF9800; /* Bright amber border */
+  border-left: 5px solid #ff9800; /* Bright amber border */
 }
 
 /* Reply container */
@@ -853,16 +824,15 @@ video {
   padding: 10px;
   margin-top: 10px;
   border-radius: 5px;
-  background-color: #37474F; /* Dark slate gray */
-  color: #B0BEC5; /* Lighter text for dark mode */
+  background-color: #37474f; /* Dark slate gray */
+  color: #b0bec5; /* Lighter text for dark mode */
 }
 
 /* Nested reply container */
 .reply-container.nested-reply {
-  background-color: #455A64; /* Slate gray */
+  background-color: #455a64; /* Slate gray */
   margin-left: 20px;
 }
-
 
 .reply-icons {
   display: flex;
@@ -870,16 +840,37 @@ video {
   gap: 10px; /* Adjust the space between icons */
 }
 
-.reply-2:hover{
+.reply-2:hover {
   background-color: grey;
 }
 
-.reply-btn:hover{
+.reply-btn:hover {
   cursor: pointer;
   color: grey;
 }
 
-.speaker-icon:hover{
+.speaker-icon:hover {
   cursor: pointer;
   color: white;
+}
+
+.progress-overview {
+  padding: 20px;
+}
+
+.progress-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.progress-table th,
+.progress-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.progress-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
 }
