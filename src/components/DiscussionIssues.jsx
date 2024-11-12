@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { HiReply, HiSpeakerphone } from 'react-icons/hi'; // Added HiSpeakerphone for the speaker icon
+import { HiReply, HiSpeakerphone } from 'react-icons/hi';
 
 const DiscussionIssues = ({ issues, setIssues, id }) => {
   const [replies, setReplies] = useState({});
   const [showMainReplyInput, setShowMainReplyInput] = useState({});
   const [showNestedReplyInput, setShowNestedReplyInput] = useState({});
+  const [users, setUsers] = useState({});
   const initialState = { comment: '' };
   const [formState, setFormState] = useState(initialState);
   const replyRefs = useRef({});
@@ -25,13 +26,18 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     const replyText = replies[parentReplyId || issueId];
     if (!replyText?.trim()) return;
 
+    const userId = localStorage.getItem('userId'); // The userId for posting the comment (typically the logged-in user)
+
     try {
       const res = await axios.post(
         `http://localhost:3001/issues/${issueId}/replies`,
-        { comment: replyText, parentReplyId }
+        { comment: replyText, parentReplyId, userId }
       );
 
       const newReply = res.data;
+
+      // Fetch user name for the new reply's userId
+      await fetchUserName(newReply.user);
 
       setIssues((prevIssues) => {
         return prevIssues.map((issue) => {
@@ -82,8 +88,11 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formState.comment.trim()) return;  // Avoid submitting empty comment
+
+    const userId = localStorage.getItem('userId');  // Again, this could be the logged-in user who is posting a new issue
     try {
-      const formData = { ...formState, discussionId: `${id}` };
+      const formData = { ...formState, discussionId: `${id}`, userId };
       const response = await axios.post('http://localhost:3001/issues', formData);
       setIssues((prevIssues) => [...prevIssues, response.data]);
       setFormState(initialState);
@@ -92,18 +101,40 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     }
   };
 
+  // Fetch user name for a given userId
+  const fetchUserName = async (userId) => {
+    if (users[userId]) return; // If we already have this user's name, skip the request
+
+    try {
+      const response = await axios.get(`http://localhost:3001/users/${userId}`);
+      if (response.data && response.data.name) {
+        setUsers((prevUsers) => ({
+          ...prevUsers,
+          [userId]: response.data.name,
+        }));
+      } else {
+        console.error('User data not found for userId:', userId);
+      }
+    } catch (error) {
+      console.error('Error fetching user name:', error);
+    }
+  };
+
   const Reply = ({ issueId, reply, level = 0 }) => {
     const replyKey = level > 0 ? reply._id : issueId;
     const createdAt = reply.createdAt ? new Date(reply.createdAt).toDateString() : "Invalid Date";
     const commentText = reply.comment || 'No comment available.';
+    const userName = users[reply.user] || 'Unknown User';  // Default to "Unknown User" if not fetched
 
     useEffect(() => {
+      if (!users[reply.user] && reply.user) {
+        fetchUserName(reply.user);
+      }
       if (showNestedReplyInput[reply._id] && replyRefs.current[reply._id]) {
         replyRefs.current[reply._id].focus();
       }
-    }, [showNestedReplyInput, reply._id]);
+    }, [reply.user, showNestedReplyInput, reply._id, users]);
 
-    // Function to trigger speech synthesis
     const handleSpeech = (text) => {
       const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
@@ -112,24 +143,16 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     return (
       <div className={`reply-container ${level > 0 ? 'nested-reply' : ''}`} style={{ marginLeft: level * 20 + 'px' }}>
         <div className="reply-content">
+          <h4>{userName}</h4>
           <p>{commentText} - <small>{createdAt}</small></p>
           <div className="reply-icons">
-            {/* Reply Icon */}
-            <div
-              className="reply-icon"
-              onClick={() => setShowNestedReplyInput((prev) => ({
-                ...prev,
-                [reply._id]: !prev[reply._id],
-              }))}
-            >
+            <div className="reply-icon" onClick={() => setShowNestedReplyInput((prev) => ({
+              ...prev,
+              [reply._id]: !prev[reply._id],
+            }))}>
               <HiReply />
-              
             </div>
-            {/* Speaker Icon */}
-            <div
-              className="speaker-icon"
-              onClick={() => handleSpeech(commentText)}
-            >
+            <div className="speaker-icon" onClick={() => handleSpeech(commentText)}>
               <HiSpeakerphone />
             </div>
           </div>
@@ -163,14 +186,11 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
         <div key={issue._id} className="issue-container">
           <div className="issue-header">
             <h3>{issue.comment}</h3>
-            <div
-              className="reply-btn"
-              onClick={() => setShowMainReplyInput((prev) => ({
-                ...prev,
-                [issue._id]: !prev[issue._id],
-              }))}
-            >
-              <HiReply  />
+            <div className="reply-btn" onClick={() => setShowMainReplyInput((prev) => ({
+              ...prev,
+              [issue._id]: !prev[issue._id],
+            }))}>
+              <HiReply />
             </div>
           </div>
 
@@ -187,7 +207,7 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
           )}
 
           {issue.replies && issue.replies.length > 0 && (
-            <div className="replies">
+            <div className="replies-container">
               {issue.replies.map((reply) => (
                 <Reply key={reply._id} issueId={issue._id} reply={reply} />
               ))}
@@ -195,16 +215,14 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
           )}
         </div>
       ))}
-
-      <form onSubmit={handleSubmit} className="issue-form">
-        <input
+      <form onSubmit={handleSubmit} className="new-issue-form">
+        <textarea
           id="comment"
-          type="text"
           value={formState.comment}
           onChange={handleChange}
-          placeholder="Write a new issue..."
+          placeholder="Write a comment..."
         />
-        <button type="submit">Submit Issue</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
