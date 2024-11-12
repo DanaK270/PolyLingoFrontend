@@ -2,7 +2,56 @@
 /* Importing fun fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500&family=Lato:wght@300;400;700&family=Nunito:wght@300;400;600&display=swap');
+/* Nav.css */
 
+.nav-container {
+  background-color: #2c3e50; /* Dark background */
+  padding: 1rem; /* Padding around the nav */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between; /* Space between items */
+  align-items: center; /* Center items vertically */
+}
+
+.nav-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  display: flex; /* Display items in a row */
+}
+
+.nav-list li {
+  margin: 0 1rem; /* Space between list items */
+}
+
+.nav-link {
+  color: #ecf0f1; /* Light text color */
+  text-decoration: none; /* Remove underline */
+  font-weight: 500; /* Slightly bolder text */
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.nav-link:hover {
+  color: #3498db; /* Change color on hover */
+}
+
+.nav-link svg {
+  margin-right: 0.5rem; /* Space between icon and text */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .nav-list {
+    flex-direction: column; /* Stack items vertically on small screens */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .nav-list li {
+    margin: 0.5rem 0; /* Space between items */
+  }
+}
 
 .card-body {
   display: flex;
