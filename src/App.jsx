@@ -6,7 +6,7 @@ import Home from "./pages/Home"
 import SignIn from "./pages/Signin"
 import Discussion from "./components/Discussion"
 import Translate from "./components/Translation"
-
+import UserNotes from "./components/UserNotes"
 import Discussion2 from "./components/Discussion2"
 import Main from "./components/Main"
 import LessonDetails from "./components/LessonDetails"
@@ -115,6 +115,7 @@ const App = () => {
           path="/languages/createlanguage"
           element={<CreateLanguageForm />}
         />
+        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
       </Routes>
     </div>
   )

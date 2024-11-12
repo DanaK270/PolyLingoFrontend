@@ -1,13 +1,16 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const BASE_URL = "http://localhost:3001"; // Ensure this matches your local server's base URL
+
 const CreateLanguageForm = () => {
   const navigate = useNavigate();
   const [languageName, setLanguageName] = useState("");
   const [difficulties, setDifficulties] = useState("");
   const [description, setDescription] = useState("");
-  const [fields, setFields] = useState([{ name: "", description: "", video: "" }]); // For lessons
+  const [fields, setFields] = useState([{ name: "", description: "", video: [] }]); // For lessons
+
   // Handle changes to lesson fields
   const handleFieldChange = (index, e) => {
     const { name, value } = e.target;
@@ -15,52 +18,66 @@ const CreateLanguageForm = () => {
     newFields[index][name] = value;
     setFields(newFields);
   };
+
   // Add new lesson field
   const handleAddField = () => {
-    setFields([...fields, { name: "", description: "", video: "" }]);
+    setFields([...fields, { name: "", description: "", video: [] }]);
   };
+
   // Remove lesson field
   const handleRemoveField = (index) => {
     const newFields = fields.filter((_, i) => i !== index);
     setFields(newFields);
   };
+
   // Handle video upload for a specific lesson
   const handleVideoUpload = async (index, e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file); // Use 'file' as the field name for Cloudinary
-      formData.append("upload_preset", "videosuploads"); // Replace with your Cloudinary upload preset
-      try {
-        // Step 1: Upload video to Cloudinary
-        const response = await axios.post('https://api.cloudinary.com/v1_1/dtjgtwrtk/video/upload', formData);
-        const videoUrl = response.data.secure_url; // Get the URL of the uploaded video
-        const newFields = [...fields];
-        newFields[index].video = videoUrl; // Set the video URL for the field
-        setFields(newFields); // Update state
-      } catch (error) {
-        console.error("Error uploading video:", error);
+    try {
+      const file = e.target.files[0];
+      if (file) {
+        // Create the path with hardcoded base (e.g., C:\\videos\\filename)
+        const videoPath = `C:/videos/${file.name}`;
+
+        let fieldsCopy = [...fields];
+        // Ensure the video is stored as an array of strings
+        fieldsCopy[index].video = [videoPath]; // Store the video as an array with the file path string
+        setFields(fieldsCopy);
       }
+    } catch (error) {
+      console.error("Error uploading video:", error);
     }
   };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Prepare the data for submission
-    const languageData = {
+
+    // Prepare the language data
+    const formData = {
       languagename: languageName,
-      difficulties,
-      description,
-      fields,
+      difficulties: difficulties,
+      description: description,
+      fields: fields.map((field) => ({
+        name: field.name,
+        description: field.description,
+        video: field.video, // This will be an array of video paths as strings
+      })),
     };
+
     try {
-      // Send the language data to the backend
-      await axios.post(`${BASE_URL}/language/languages`, languageData);
-      navigate("/languages"); // Redirect to the languages list after successful submission
+      // Send the data to your backend API
+      const response = await axios.post(`${BASE_URL}/language/languages`, formData);
+      if (response.status === 200) {
+        // Handle successful submission
+        console.log("Language data submitted successfully!");
+      } else {
+        console.error("Error submitting language data");
+      }
     } catch (error) {
-      console.error("Error creating language:", error);
+      console.error("Error:", error);
     }
   };
+
   return (
     <div>
       <h1>Create Language</h1>
@@ -124,11 +141,10 @@ const CreateLanguageForm = () => {
             Add Lesson
           </button>
         </div>
-        <button type="submit">
-          Create Language
-        </button>
+        <button type="submit">Create Language</button>
       </form>
     </div>
   );
 };
+
 export default CreateLanguageForm;
