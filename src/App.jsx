@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Route, Routes } from 'react-router-dom'
 import Register from './pages/Register'
 import Home from './pages/Home'
+import Nav from './components/Nav'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
 import Translate from './components/Translation'
@@ -12,6 +13,9 @@ import Main from './components/Main'
 import LessonDetails from './components/LessonDetails'
 import LanguageDetails from './components/LanguageDetails'
 import CreateLanguageForm from './components/newLesson'
+import LanguageList from './pages/LanguageList'
+import EditLanguageForm from './components/EditLanguageForm'
+import UpdateLanguageForm from './components/EditLanguageForm'
 import UserProgressOverview from './pages/UserProgressOverview'
 import { CheckSession } from './services/auth'
 import ExerciseList from './pages/ExerciseList'
@@ -62,10 +66,12 @@ const App = () => {
 
   return (
     <div>
+      <Nav user={user} handleLogOut={handleLogOut} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
+        <Route path="/update" element={<EditLanguageForm />} />
 
         <Route
           path="/discuss"
@@ -92,11 +98,12 @@ const App = () => {
           path="/languages/:languageId"
           element={<LanguageDetails issues={issues} setIssues={setIssues} />}
         />
+        <Route path="/update/:languageId" element={<UpdateLanguageForm />} />
         <Route
           path="/lessons/:lessonId"
           element={<LessonDetails issues={issues} setIssues={setIssues} />}
         />
-
+        <Route path="/languages" element={<LanguageList user={user} />} />
         <Route
           path="/discuss"
           element={
