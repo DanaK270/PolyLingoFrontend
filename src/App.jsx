@@ -14,6 +14,8 @@ import LessonDetails from "./components/LessonDetails"
 import LanguageDetails from "./components/LanguageDetails"
 import CreateLanguageForm from './components/newLesson'
 import LanguageList from "./pages/LanguageList"
+import EditLanguageForm from "./components/EditLanguageForm"
+import UpdateLanguageForm from "./components/EditLanguageForm"
 
 import { CheckSession } from "./services/auth"
 import ExerciseList from "./pages/ExerciseList"
@@ -69,6 +71,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
+        <Route path="/update" element={<EditLanguageForm />}/>
 
         <Route
           path="/discuss"
@@ -95,6 +98,7 @@ const App = () => {
           path="/languages/:languageId"
           element={<LanguageDetails issues={issues} setIssues={setIssues} />}
         />
+        <Route path="/update/:languageId" element={<UpdateLanguageForm />} />
         <Route
           path="/lessons/:lessonId"
           element={<LessonDetails issues={issues} setIssues={setIssues} />}

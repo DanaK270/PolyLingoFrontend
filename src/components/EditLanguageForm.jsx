@@ -1,20 +1,35 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = 'http://localhost:3001';
 
-const EditLanguageForm = () => {
+const UpdateLanguageForm = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { language } = location.state;
+  const { languageId } = useParams(); // Get the language ID from the URL
+  const [languageName, setLanguageName] = useState('');
+  const [difficulties, setDifficulties] = useState('');
+  const [description, setDescription] = useState('');
+  const [lessons, setLessons] = useState([{ name: '', description: '', }]);
 
-  // Initialize state with language data
-  const [languageName, setLanguageName] = useState(language.languagename);
-  const [difficulties, setDifficulties] = useState(language.difficulties);
-  const [description, setDescription] = useState(language.description);
-  const [lessons, setLessons] = useState(language.fields || []); // Initialize with current lessons
-  const [loading, setLoading] = useState(true);
+  // Fetch existing language data
+  useEffect(() => {
+    const fetchLanguageData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/language/languages/${languageId}`); 
+       
+        const languageData = response.data;
+        setLanguageName(languageData.languagename);
+        setDifficulties(languageData.difficulties);
+        setDescription(languageData.description);
+        setLessons(languageData.fields);
+      } catch (error) {
+        console.error('Error fetching language data:', error);
+      }
+    };
+
+    fetchLanguageData();
+  }, [languageId]);
 
   const handleLessonChange = (index, event) => {
     const { name, value } = event.target;
@@ -24,7 +39,7 @@ const EditLanguageForm = () => {
   };
 
   const handleAddLesson = () => {
-    setLessons([...lessons, { name: '', description: '', video: '' }]);
+    setLessons([...lessons, { name: '', description: '', video: [] }]);
   };
 
   const handleRemoveLesson = (index) => {
@@ -36,16 +51,16 @@ const EditLanguageForm = () => {
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file); // Use 'file' as the field name for Cloudinary
-      formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
-
+      formData.append('videos', file);
       try {
-        // Step 1: Upload video to Cloudinary
-        const response = await axios.post('https://api.cloudinary.com/v1_1/your_cloud_name/video/upload', formData);
-        
-        const videoUrl = response.data.secure_url; // Get the video URL from the response
+        const response = await axios.post(`${BASE_URL}/videos`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        const videoUrl = response.data.videoUrl;
         const newLessons = [...lessons];
-        newLessons[index].video = videoUrl; // Set the video URL in the correct field
+        newLessons[index].video = [...newLessons[index].video, videoUrl];
         setLessons(newLessons);
       } catch (error) {
         console.error('Error uploading video:', error);
@@ -62,98 +77,89 @@ const EditLanguageForm = () => {
         description,
         fields: lessons,
       };
-      await axios.put(`${BASE_URL}/languages/${language._id}`, languageData); // Adjust the endpoint as necessary
-      navigate("/languages"); // Redirect to the languages list or appropriate route
+      console.log(languageData)
+      await axios.put(`${BASE_URL}/language/languages/${languageId}`, languageData);// Use PUT forupdating
+      
+      navigate('/main');
     } catch (error) {
-      console.error("Error updating language:", error);
+      console.error('Error updating language:', error);
     }
   };
 
-  useEffect(() => {
-    // Optionally fetch additional data here if needed
-    setLoading(false);
-  }, []);
-
   return (
     <>
-      <div>
-        <h1>Edit Language</h1>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Language Name:</label>
+      <h1 className="update-language-title">Update Language</h1>
+      <form onSubmit={handleSubmit} className="update-language-form">
+        <div className="update-language-field">
+          <label className="update-language-label">Language Name:</label>
+          <input
+            type="text"
+            value={languageName}
+            onChange={(event) => setLanguageName(event.target.value)}
+            className="update-language-input"
+            required
+          />
+        </div>
+        <div className="update-language-field">
+          <label className="update-language-label">Difficulties:</label>
+          <input
+            type="text"
+            value={difficulties}
+            onChange={(event) => setDifficulties(event.target.value)}
+            className="update-language-input"
+            required
+          />
+        </div>
+        <div className="update-language-field">
+          <label className="update-language-label">Description:</label>
+          <textarea
+            value={description}
+            onChange ={(event) => setDescription(event.target.value)}
+            className="update-language-textarea"
+            required
+          />
+        </div>
+        {lessons.map((lesson, index) => (
+          <div key={index} className="lesson-container">
+            <h3>Lesson {index + 1}</h3>
+            <div className="update-language-field">
+              <label className="update-language-label">Lesson Name:</label>
               <input
                 type="text"
-                value={languageName}
-                onChange={(e) => setLanguageName(e.target.value)}
+                name="name"
+                value={lesson.name}
+                onChange={(event) => handleLessonChange(index, event)}
+                className="update-language-input"
                 required
               />
             </div>
-            <div>
-              <label>Difficulties:</label>
-              <input
-                type="text"
-                value={difficulties}
-                onChange={(e) => setDifficulties(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Description:</label>
+            <div className="update-language-field">
+              <label className="update-language-label">Lesson Description:</label>
               <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                value={lesson.description}
+                onChange={(event) => handleLessonChange(index, event)}
+                className="update-language-textarea"
                 required
               />
             </div>
-            <div>
-              <h3>Lessons</h3>
-              {lessons.map((lesson, index) => (
-                <div key={index}>
-                  <div>
-                    <label>Lesson Name:</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={lesson.name}
-                      onChange={(event) => handleLessonChange(index, event)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Lesson Description:</label>
-                    <textarea
-                      name="description"
-                      value={lesson.description}
-                      on Change={(event) => handleLessonChange(index, event)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Upload Video:</label>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={(event) => handleVideoUpload(index, event)}
-                    />
-                  </div>
-                  <button type="button" onClick={() => handleRemoveLesson(index)}>
-                    Remove Lesson
-                  </button>
-                </div>
-              ))}
-              <button type="button" onClick={handleAddLesson}>
-                Add Lesson
-              </button>
+            <div className="update-language-field">
+             
             </div>
-            <button type="submit">Update Language</button>
-          </form>
-        )}
-      </div>
+            <button type="button" onClick={() => handleRemoveLesson(index)} className="remove-lesson-button">
+              Remove Lesson
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={handleAddLesson} className="add-lesson-button">
+          Add Lesson
+        </button>
+        <button type="submit" className="update-language-submit-button">
+          Update Language
+        </button>
+      </form>
     </>
   );
 };
 
-export default EditLanguageForm;
+export default UpdateLanguageForm;
