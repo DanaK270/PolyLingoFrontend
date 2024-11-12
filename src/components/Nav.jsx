@@ -17,7 +17,7 @@ const Nav = ({ user, handleLogOut }) => {
           </Link>
         </li>
         <li>
-          <Link to="/languages" className="nav-link">
+          <Link to="/main" className="nav-link">
             Languages List
           </Link>
         </li>
@@ -33,16 +33,17 @@ const Nav = ({ user, handleLogOut }) => {
   const userOptions = (
     <nav className="nav">
       <ul className="nav-list">
-        <li>
-          <Link to="/discuss" className="nav-link">
-            Discussion
+     <li>
+          <Link to="/main" className="nav-link">
+            Languages List
           </Link>
         </li>
         <li>
-          <Link to="/languages" className="nav-link">
-            My Languages
+          <Link to="/translate" className="nav-link">
+           Translate
           </Link>
         </li>
+        
         <li>
           <Link onClick={handleLogOut} to="/sign-in" className="nav-link">
             Sign Out

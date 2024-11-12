@@ -30,6 +30,7 @@ const Register = () => {
       setFormValues(initState)
       navigate('/sign-in')
     } catch (err) {
+      console.log(err)
       setErrorMessage(
         'Registration failed! Please try again with different credentials.'
       )
