@@ -25,7 +25,7 @@ const LanguageCard = ({ user, language, onEdit, onDelete }) => {
 
   return (
     <div className="language-card">
-      <h2 className="language-name">{language.languagename}</h2>
+      <h2 className="language-name">{language.name}</h2>
       <p className="language-description">{language.description}</p>
       <p className="language-difficulties">Difficulties: {language.difficulties}</p>
 
