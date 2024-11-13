@@ -1,28 +1,30 @@
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-
-const Main = () => {
-  const [languages, setLanguages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // State to hold the search term
-  const [searchType, setSearchType] = useState("languagename"); // State to hold the filter type
+const Main = ({ user }) => {
+  const [languages, setLanguages] = useState([])
+  const [userProgress, setUserProgress] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('') // State to hold the search term
+  const [searchType, setSearchType] = useState('languagename') // State to hold the filter type
   const BASE_URL = 'http://localhost:3001' // Ensure this is defined
   useEffect(() => {
     const fetchLanguages = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
-        const response = await axios.get('http://localhost:3001/language/languages');
-        setLanguages(response.data);
+        const response = await axios.get(
+          'http://localhost:3001/language/languages'
+        )
+        setLanguages(response.data)
       } catch (error) {
-        console.error('Error fetching languages', error);
+        console.error('Error fetching languages', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchLanguages();
-  }, []);
+    }
+    fetchLanguages()
+  }, [])
 
   useEffect(() => {
     const fetchLanguagesAndProgress = async () => {
@@ -51,7 +53,6 @@ const Main = () => {
     }
     fetchLanguagesAndProgress()
   }, [])
-
 
   const startLearning = async (languageId) => {
     try {
@@ -112,10 +113,10 @@ const Main = () => {
   }
 
   // Filter languages based on search term and selected filter type
-  const filteredLanguages = languages.filter(language => {
-    const fieldToSearch = language[searchType].toLowerCase();
-    return fieldToSearch.includes(searchTerm.toLowerCase());
-  });
+  const filteredLanguages = languages.filter((language) => {
+    const fieldToSearch = language[searchType].toLowerCase()
+    return fieldToSearch.includes(searchTerm.toLowerCase())
+  })
 
   return (
     <div className="container">
@@ -143,43 +144,48 @@ const Main = () => {
       </div>
 
       <div className="card-stack">
-  {filteredLanguages.length > 0 ? (
-    filteredLanguages.map((language) => (
-      <div key={language._id} className="card">
-        <div className="difficulty-badge">{language.difficulties}</div>
-        <div className="card-icon">🌐</div>
-        <h3>{language.languagename}</h3>
-        <p>{language.description}</p>
-        <Link to={`/languages/${language._id}`} className="button">
-          View Lessons
-        </Link>
-        <Link to={`/update/${language._id}`} className="button">
-                Update
-              </Link>
+        {filteredLanguages.length > 0 ? (
+          filteredLanguages.map((language) => (
+            <div key={language._id} className="card">
+              <div className="difficulty-badge">{language.difficulties}</div>
+              <div className="card-icon">🌐</div>
+              <h3>{language.languagename}</h3>
+              <p>{language.description}</p>
+              {user?.role === 'admin' && (
+                <>
+                  <Link to={`/languages/${language._id}`} className="button">
+                    View Lessons
+                  </Link>
+                  <Link to={`/update/${language._id}`} className="button">
+                    Update
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(language._id)}
+                    className="button delete-button"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
 
-              <button
-                onClick={() => startLearning(language._id)}
-                className="button"
-              >
-                Start Learning
-              </button>
-
-              <button
-                onClick={() => handleDelete(language._id)}
-                className="button delete-button"
-              >
-                Delete
-              </button>
+              {user?.role === 'user' && (
+                <Link to={`/languages/${language._id}`} className="button">
+                  <button
+                    onClick={() => startLearning(language._id)}
+                    className="button"
+                  >
+                    Start Learning
+                  </button>
+                </Link>
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No languages found.</p>
+        )}
       </div>
-    ))
-  ) : (
-    <p>No languages found.</p>
-  )}
-</div>
-
     </div>
-  );
-};
+  )
+}
 
-export default Main;
-
+export default Main
