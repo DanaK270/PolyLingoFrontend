@@ -1,22 +1,23 @@
-import './App.css'
-import { useState, useEffect } from 'react'
+import "./App.css"
+import { useState, useEffect } from "react"
+import { useNavigate, Route, Routes } from "react-router-dom"
+import Register from "./pages/Register"
+import Home from "./pages/Home"
+import SignIn from "./pages/Signin"
+import Discussion from "./components/Discussion"
+import Translate from "./components/Translation"
 import ChatBot from 'react-chatbotify'
-import { useNavigate, Route, Routes } from 'react-router-dom'
-import Register from './pages/Register'
-import Home from './pages/Home'
-import SignIn from './pages/Signin'
-import Discussion from './components/Discussion'
-import Translate from './components/Translation'
-import Discussion2 from './components/Discussion2'
-import Main from './components/Main'
-import LessonDetails from './components/LessonDetails'
-import LanguageDetails from './components/LanguageDetails'
+import Discussion2 from "./components/Discussion2"
+import Main from "./components/Main"
+import LessonDetails from "./components/LessonDetails"
+import LanguageDetails from "./components/LanguageDetails"
 import CreateLanguageForm from './components/newLesson'
-import { CheckSession } from './services/auth'
-import ExerciseList from './pages/ExerciseList'
-import ExerciseForm from './pages/ExerciseForm'
-import ExerciseDetail from './pages/ExerciseDetail'
-import axios from 'axios'
+
+import { CheckSession } from "./services/auth"
+import ExerciseList from "./pages/ExerciseList"
+import ExerciseForm from "./pages/ExerciseForm"
+import ExerciseDetail from "./pages/ExerciseDetail"
+import axios from "axios"
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -43,9 +44,9 @@ const App = () => {
 
   const getIssues = async () => {
     try {
-      let res = await axios.get('http://localhost:3001/issues')
-      console.log('Fetched issues:', res.data)
-      setIssues(res.data)
+      let res = await axios.get("http://localhost:3001/issues")
+      console.log("Fetched issues:", res.data) // Verify the data structure
+      setIssues(res.data) // This should update your issues state
     } catch (err) {
       console.log('Error fetching issues:', err)
     }
@@ -114,7 +115,7 @@ const App = () => {
 
   return (
     <div>
-      <ChatBot
+        <ChatBot
         settings={{
           voice: { disabled: false },
           botBubble: { simStream: true },
@@ -128,6 +129,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
+
         <Route
           path="/discuss"
           element={
@@ -145,7 +147,7 @@ const App = () => {
         />
         <Route
           path="/main"
-          element={<Main issues={issues} setIssues={setIssues} />}
+          element={<Main issues={issues} setIssues={setIssues} user={user} />}
         />
         <Route
           path="/languages/:languageId"
@@ -153,7 +155,25 @@ const App = () => {
         />
         <Route
           path="/lessons/:lessonId"
-          element={<LessonDetails issues={issues} setIssues={setIssues} />}
+          element={
+            <LessonDetails
+              issues={issues}
+              setIssues={setIssues}
+              userId={user?.id}
+              user={user}
+            />
+          }
+        />
+
+        <Route
+          path="/discuss"
+          element={
+            <Discussion
+              getIssues={getIssues}
+              issues={issues}
+              setIssues={setIssues}
+            />
+          }
         />
         <Route path="/exercises" element={<ExerciseList />} />
         <Route path="/exercises/add" element={<ExerciseForm />} />
@@ -163,6 +183,9 @@ const App = () => {
           path="/languages/createlanguage"
           element={<CreateLanguageForm />}
         />
+        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
+        <Route path="/progress-overview" element={<UserProgressOverview />} />
+        <Route path="/progress/:progressId" element={<ProgressDetails />} />
       </Routes>
     </div>
   )

@@ -1,145 +1,135 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const UserNotes = ({ userId }) => {
+  const { lessonId } = useParams();
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState('');
   const [selectedNoteId, setSelectedNoteId] = useState(null);
-  const [updatedContent, setUpdatedContent] = useState('');
-  const [lessonId] = useState('6731cd00682c379f21e64e62'); 
 
-  
-  // Fetch all notes for the user
+  // Fetch notes from the backend or localStorage on initial load
   useEffect(() => {
-    if (!userId) return; // Avoid fetch if userId is not available
+    if (!userId || !lessonId) return;
 
     const fetchNotes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/userNote/notes/user/${userId}`);
-        setNotes(response.data);
+        // Check if notes are available in localStorage
+        const localNotes = localStorage.getItem(`notes-${userId}-${lessonId}`);
+        if (localNotes) {
+          setNotes(JSON.parse(localNotes)); // Set notes from localStorage
+        } else {
+          // If no local notes, fetch from the server
+          const response = await axios.get(`http://localhost:3001/userNote/notes/user/${userId}/lesson/${lessonId}`);
+          setNotes(response.data);
+          // Save fetched notes to localStorage
+          localStorage.setItem(`notes-${userId}-${lessonId}`, JSON.stringify(response.data));
+        }
       } catch (error) {
         console.error('Error fetching notes:', error);
       }
     };
 
     fetchNotes();
-  }, [userId]); // Only re-run if userId changes
+  }, [userId, lessonId]); // Re-fetch when userId or lessonId changes
 
-  // Handle creating a new note
-  const handleCreateNote = async (e) => {
+  // Save notes to localStorage whenever notes change
+  useEffect(() => {
+    if (notes.length > 0) {
+      localStorage.setItem(`notes-${userId}-${lessonId}`, JSON.stringify(notes));
+    }
+  }, [notes, userId, lessonId]);
+
+  const handleCreateOrUpdateNote = async (e) => {
     e.preventDefault();
-    if (!userId) return; // Guard clause to ensure userId is present
+    if (!userId || !lessonId) return;
 
-    try {
-      const response = await axios.post('http://localhost:3001/userNote/notes', {
-        userId,
-        lessonId,
-        content
-      });
-      setNotes([...notes, response.data.userNote]); // Update the notes list with the new note
-      setContent(''); // Clear content field after submission
-    } catch (error) {
-      console.error('Error creating note:', error);
+    if (selectedNoteId) {
+      try {
+        const response = await axios.put(`http://localhost:3001/userNote/notes/${selectedNoteId}`, {
+          content,
+        });
+        const updatedNotes = notes.map((note) =>
+          note._id === selectedNoteId ? response.data.updatedUserNote : note
+        );
+        setNotes(updatedNotes);
+        setSelectedNoteId(null);
+      } catch (error) {
+        console.error('Error updating note:', error);
+      }
+    } else {
+      try {
+        const response = await axios.post('http://localhost:3001/userNote/notes', {
+          userId,
+          lessonId,
+          content,
+        });
+        const newNotes = [...notes, response.data.userNote];
+        setNotes(newNotes);
+      } catch (error) {
+        console.error('Error creating note:', error);
+      }
     }
+    setContent('');
   };
 
-  // Handle selecting a note to view its details
-  const handleViewNote = (noteId) => {
-    setSelectedNoteId(noteId);
-    const note = notes.find((n) => n._id === noteId);
-    if (note) {
-      setUpdatedContent(note.content); // Pre-fill content in the update form
-    }
-  };
-
-  // Handle updating a note
-  const handleUpdateNote = async (e) => {
-    e.preventDefault();
-    if (!selectedNoteId) return; // Ensure a note is selected for updating
-
-    try {
-      const response = await axios.put(`http://localhost:3001/userNote/notes/${selectedNoteId}`, {
-        content: updatedContent
-      });
-      const updatedNotes = notes.map((note) =>
-        note._id === selectedNoteId ? response.data.updatedUserNote : note
-      );
-      setNotes(updatedNotes); // Update the notes list with the updated note
-      setSelectedNoteId(null); // Clear selection after updating
-      setUpdatedContent(''); // Clear update content field
-    } catch (error) {
-      console.error('Error updating note:', error);
-    }
-  };
-
-  // Handle deleting a note
   const handleDeleteNote = async (noteId) => {
     try {
       await axios.delete(`http://localhost:3001/userNote/notes/${noteId}`);
-      setNotes(notes.filter((note) => note._id !== noteId)); // Remove the deleted note from the list
+      const updatedNotes = notes.filter((note) => note._id !== noteId);
+      setNotes(updatedNotes);
     } catch (error) {
       console.error('Error deleting note:', error);
     }
   };
 
-  return (
-    <div>
-      <h1>User Notes</h1>
+  const handleEditNote = (noteId) => {
+    const note = notes.find((n) => n._id === noteId);
+    setContent(note.content);
+    setSelectedNoteId(noteId);
+  };
 
-      {/* Create Note Form */}
-      <div>
-        <h2>Create Note</h2>
-        <form onSubmit={handleCreateNote}>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your note here"
-            rows="5"
-            required
-          />
-          <br />
-          <button type="submit">Create Note</button>
-        </form>
-      </div>
+  return (
+    <div className="user-notes-container">
+      <h1>User Notes for Lesson</h1>
+
+      {/* Create or Update Note (Single Text Area) */}
+      <form onSubmit={handleCreateOrUpdateNote} className="note-form">
+        <h2>{selectedNoteId ? 'Update Note' : 'Create Note'}</h2>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your note here"
+          rows="5"
+          required
+        />
+        <br />
+        <button type="submit">{selectedNoteId ? 'Update Note' : 'Create Note'}</button>
+      </form>
 
       {/* List of Notes */}
-      <div>
+      <div className="notes-list">
         <h2>Your Notes</h2>
         {notes.length === 0 ? (
           <p>No notes available. Please create one.</p>
         ) : (
           <ul>
             {notes.map((note) => (
-              <li key={note._id}>
-                <h3>{note.lessonId ? note.lessonId.name : 'Lesson Name'}</h3>
+              <li key={note._id} className="note-item">
                 <p>{note.content}</p>
-                <button onClick={() => handleViewNote(note._id)}>View</button>
+                {/* Edit and Delete Buttons */}
+                <button onClick={() => handleEditNote(note._id)}>Edit</button>
                 <button onClick={() => handleDeleteNote(note._id)}>Delete</button>
               </li>
             ))}
           </ul>
         )}
       </div>
-
-      {/* View and Update Note */}
-      {selectedNoteId && (
-        <div>
-          <h2>Update Note</h2>
-          <form onSubmit={handleUpdateNote}>
-            <textarea
-              value={updatedContent}
-              onChange={(e) => setUpdatedContent(e.target.value)}
-              placeholder="Update your note"
-              rows="5"
-              required
-            />
-            <br />
-            <button type="submit">Update Note</button>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
 
+
 export default UserNotes;
+
+
