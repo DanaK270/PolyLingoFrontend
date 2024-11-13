@@ -77,39 +77,48 @@ const CreateLanguageForm = () => {
   };
 
   return (
-    <div>
-      <h1>Create Language</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Language Name:</label>
+    <div className="create-lang-form-container">
+      <h1 className="create-lang-form-title">Create Language</h1>
+      <form onSubmit={handleSubmit} className="create-lang-form">
+        <div className="create-lang-form-input-group">
+          <label htmlFor="languageName" className="create-lang-form-label">Language Name:</label>
           <input
+            id="languageName"
             type="text"
             value={languageName}
             onChange={(e) => setLanguageName(e.target.value)}
             required
+            className="create-lang-form-input"
           />
         </div>
-        <div>
-          <label>Difficulties:</label>
+
+        <div className="create-lang-form-input-group">
+          <label htmlFor="difficulties" className="create-lang-form-label">Difficulties:</label>
           <input
+            id="difficulties"
             type="text"
             value={difficulties}
             onChange={(e) => setDifficulties(e.target.value)}
             required
+            className="create-lang-form-input"
           />
         </div>
-        <div>
-          <label>Description:</label>
+
+        <div className="create-lang-form-input-group">
+          <label htmlFor="description" className="create-lang-form-label">Description:</label>
           <textarea
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className="create-lang-form-textarea"
           />
         </div>
-        <div>
-          <h3>Lessons</h3>
+
+        <div className="create-lang-lessons-section">
+          <h3 className="create-lang-lessons-title">Lessons</h3>
           {fields.map((field, index) => (
-            <div key={index}>
+            <div key={index} className="create-lang-lesson-field">
               <input
                 type="text"
                 name="name"
@@ -117,6 +126,7 @@ const CreateLanguageForm = () => {
                 value={field.name}
                 onChange={(e) => handleFieldChange(index, e)}
                 required
+                className="create-lang-lesson-input"
               />
               <textarea
                 name="description"
@@ -124,31 +134,38 @@ const CreateLanguageForm = () => {
                 value={field.description}
                 onChange={(e) => handleFieldChange(index, e)}
                 required
+                className="create-lang-lesson-input"
               />
-              <h4>Videos</h4>
-              {field.video && field.video.length > 0 && (
-                <ul>
-                  {field.video.map((videoPath, i) => (
-                    <li key={i}>{videoPath}</li>
-                  ))}
-                </ul>
-              )}
-              <input
-                type="file"
-                accept="video/*"
-                multiple
-                onChange={(e) => handleVideoUpload(index, e)} // Handle multiple file uploads
-              />
-              <button type="button" onClick={() => handleRemoveField(index)}>
-                Remove Lesson
-              </button>
+              <div className="create-lang-video-upload">
+                <h4>Videos</h4>
+                {field.video.length > 0 && (
+                  <ul className="create-lang-video-list">
+                    {field.video.map((videoPath, i) => (
+                      <li key={i} className="create-lang-video-item">{videoPath}</li>
+                    ))}
+                  </ul>
+                )}
+                <input
+                  type="file"
+                  accept="video/*"
+                  multiple
+                  onChange={(e) => handleVideoUpload(index, e)}
+                  className="create-lang-video-input"
+                />
+                <button type="button" onClick={() => handleRemoveField(index)} className="create-lang-remove-lesson-btn">
+                  Remove Lesson
+                </button>
+              </div>
             </div>
           ))}
-          <button type="button" onClick={handleAddField}>
+          <button type="button" onClick={handleAddField} className="create-lang-add-lesson-btn">
             Add Lesson
           </button>
         </div>
-        <button type="submit">Create Language</button>
+
+        <button type="submit" className="create-lang-submit-btn">
+          Create Language
+        </button>
       </form>
     </div>
   );

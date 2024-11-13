@@ -148,7 +148,10 @@ const Main = ({ user }) => {
           filteredLanguages.map((language) => (
             <div key={language._id} className="card">
               <div className="difficulty-badge">{language.difficulties}</div>
-              <div className="card-icon">🌐</div>
+              <div className="card-icon">
+                <img src="/logo2.png" alt="icon" />
+              </div>
+
               <h3>{language.languagename}</h3>
               <p>{language.description}</p>
               {user.role === 'admin' && (

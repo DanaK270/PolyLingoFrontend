@@ -1,867 +1,401 @@
+
 /* Importing fun fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500&family=Lato:wght@300;400;700&family=Nunito:wght@300;400;600&display=swap');
-/* Nav.css */
 
-.nav-container {
-  background-color: #2c3e50; /* Dark background */
-  padding: 1rem; /* Padding around the nav */
-}
+@import url(https://db.onlinewebfonts.com/c/14936bb7a4b6575fd2eee80a3ab52cc2?family=Feather+Bold);
 
-.nav {
-  display: flex;
-  justify-content: space-between; /* Space between items */
-  align-items: center; /* Center items vertically */
-}
-
-.nav-list {
-  list-style: none; /* Remove default list styles */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
-  display: flex; /* Display items in a row */
-}
-
-.nav-list li {
-  margin: 0 1rem; /* Space between list items */
-}
-
-.nav-link {
-  color: #ecf0f1; /* Light text color */
-  text-decoration: none; /* Remove underline */
-  font-weight: 500; /* Slightly bolder text */
-  transition: color 0.3s; /* Smooth color transition */
-}
-
-.nav-link:hover {
-  color: #3498db; /* Change color on hover */
-}
-
-.nav-link svg {
-  margin-right: 0.5rem; /* Space between icon and text */
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .nav-list {
-    flex-direction: column; /* Stack items vertically on small screens */
-    align-items: flex-start; /* Align items to the start */
-  }
-
-  .nav-list li {
-    margin: 0.5rem 0; /* Space between items */
-  }
-}
-
-.card-body {
-  display: flex;
-  justify-content: space-between;
-}
-
-small {
-  padding-right: 20px;
-}
-
-h1 {
-  text-align: center;
-}
-
-button {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.comment {
-  background-color: #b50f0f;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-}
-
-.comment-header .author {
-  font-size: 14px;
-}
-
-.comment-header .date {
-  font-size: 12px;
-  color: #888;
-}
-
-.comment-text {
-  margin-top: 10px;
-  font-size: 16px;
-}
-
-.reply-form {
-  margin-top: 10px;
-  margin-left: 20px;
-  padding-top: 5px;
-}
-
-.reply-form textarea {
-  width: 100%;
-  margin-bottom: 5px;
-}
-
-.comment-button {
-  padding: 5px 10px;
-  background-color: #008cba;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.comment-button:hover {
-  background-color: #007b8b;
-}
-
-.reply-button {
-  background-color: #4caf50;
-}
-
-.reply-button:hover {
-  background-color: #45a049;
-}
-
-.replies-list {
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.reply-button {
-  background-color: #4caf50;
-}
-
-.reply-button:hover {
-  background-color: #45a049;
-}
-
-.reply-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Push icon to the right */
-}
-
-/* General styling */
+/* Overall Body Style */
 body {
-  margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f9fd;
-  color: #333;
-  text-align: center;
-}
-
-/* Heading styles */
-h1,
-h2,
-h3 {
-  font-family: 'Pacifico', cursive; /* Fun and engaging font */
-  color: #2a7dff; /* Bright color for headings */
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: transform 0.3s ease;
-}
-
-h1:hover,
-h2:hover,
-h3:hover {
-  transform: scale(1.1); /* Slight hover effect for fun */
-}
-
-/* Form styling */
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 100vw;
-  height: 30vh;
-}
-
-/* Issue container */
-.issues-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  justify-content: space-between;
-  background-color: #3578e5;
-}
-
-/* Issue card */
-
-/* Card text */
-.card-text {
-  color: #5f6368;
-  font-size: 16px;
-  padding-left: 20px;
-  font-family: 'Playfair Display', serif;
-}
-
-/* Reply container - Soft pastel color */
-.reply-container {
-  padding: 12px;
-  background-color: #bbdefb; /* Soft blue background */
-  border-radius: 5px;
-  color: #333; /* Dark text for clarity */
-  margin-top: 10px;
-  margin: 10px !important;
-  border: 1px solid #90caf9; /* Lighter blue border */
-  font-family: 'Fredoka One', cursive;
-}
-
-/* Replies container */
-.replies-container {
-  margin-top: 10px;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-}
-
-/* Reply form */
-.reply-form {
-  margin: 10px 20px;
-}
-
-/* Reply input field */
-.reply-form input {
-  padding: 8px;
-  border-radius: 5px;
-  background-color: #eaf4f7; /* Very light pastel blue */
-  border: 1px solid #bbb;
-  color: #333;
-  width: 80%;
-  font-family: 'Lato', sans-serif;
-}
-
-.reply-form button {
-  margin-left: 5px;
-  padding: 8px 15px;
-  background-color: #03a9f4; /* Soft blue */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.reply-form button:hover {
-  background-color: #0288d1; /* Slightly darker blue on hover */
-  transform: scale(1.05); /* Small scale on hover for fun */
-}
-
-/* Icons */
-.reply-icon {
-  color: #03a9f4;
-  padding-top: 20px;
-  padding-right: 20px;
-  cursor: pointer;
-  font-size: 1.5rem; /* Bigger icon for better interaction */
-}
-
-.reply-icon:hover {
-  color: #0288d1;
-}
-
-/* Submit buttons */
-.submit-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #8bc34a; /* Soft green for positive actions */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.submit-button:hover {
-  background-color: #7cb342;
-  transform: scale(1.05); /* Small scale on hover for fun */
-}
-
-/* Nested replies */
-.nested-reply {
-  border-left: 3px solid #64b5f6; /* Softer blue for nested replies */
-  margin-left: 20px;
-  padding-left: 15px;
-}
-
-/* Reply text */
-.reply-container p {
-  margin: 0;
-  flex-grow: 1;
-  text-align: left;
-}
-
-h1,
-h2,
-h3 {
-  font-family: 'Quicksand', sans-serif;
-
-  color: #2a7dff; /* Bright color for headings */
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: transform 0.3s ease;
-}
-
-h1:hover,
-h2:hover,
-h3:hover {
-  transform: scale(1.1); /* Slight hover effect for fun */
-}
-
-/* Global Styles */
-* {
-  box-sizing: border-box;
+  background-color: #f3f3f9;
+  background-image: url('https://t4.ftcdn.net/jpg/03/73/26/09/240_F_373260949_C49GBDmBKwzfg33ym1wMHRYK7g2cFAHI.jpg');
+  background-size: cover; /* Cover the entire screen */
+  background-position: center; /* Center the background */
+  background-repeat: no-repeat; /* Don't repeat the image */
+  background-attachment: fixed; /* Make the background fixed in place */
+  color: #4a4a4a;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-body {
-  background: linear-gradient(to right, #f3e5f5, #e1bee7);
-  color: #333;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
 }
 
-/* Container */
+/* Container for the whole page */
 .container {
-  max-width: 1000px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px 20px;
+  max-width: 1200px; /* Increased max-width for larger screens */
+  margin: 0 auto;
+  text-align: center;
 }
 
-/* Title */
+/* Title Styling */
 h2 {
   font-size: 2.5em;
-  font-weight: bold;
-  color: #6a1b9a;
-  text-align: center;
-  width: 100%;
+  color: #508D4E;
   margin-bottom: 20px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-family: 'feather', cursive;
 }
 
-/* Card Styles */
-.card {
-  width: 200px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding: 15px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  border: 2px solid #e1bee7;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Icon Style for Fun */
-.card-icon {
-  font-size: 2.5em;
-  color: #ab47bc;
-  margin-bottom: 10px;
-}
-
-/* Card Text */
-.card h3 {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #6a1b9a;
-  margin-bottom: 10px;
-}
-
-.card p {
-  font-size: 0.9em;
-  color: #555;
-}
-
-/* Button Style */
-.card .button {
-  margin-top: auto;
-  padding: 10px 20px;
-  background: #ab47bc;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-  text-decoration: none;
-}
-
-.card .button:hover {
-  background: #8e24aa;
-}
-
-/* Video Section */
-.video-container {
-  margin-top: 15px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-/* Loading Spinner */
-.loading {
-  font-size: 1.5em;
-  color: #6a1b9a;
-  font-weight: bold;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Animation and Interactivity */
+/* Main Page Card Stack */
 .card-stack {
-  display: flex;
-  flex-wrap: wrap;
+  
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
   gap: 20px;
-  padding: 10px;
+  padding: 0;
+  list-style: none;
+  margin-top: 40px; /* Space between the title and cards */
+  
+}
+
+/* Card Styling */
+.card {
+  position: relative;
+  background-color: #f9f0ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card-icon {
   font-size: 3em;
-  margin-bottom: 10px;
-  color: #ab47bc;
+  color: #508D4E;
 }
 
-/* LanguageDetails.css */
+.card h3 {
+  font-size: 1.4em;
+  color: #508D4E;
+  margin-top: 10px;
+}
 
+.card p {
+  font-size: 1.1em;
+  color: #508D4E;
+  margin: 10px 0;
+}
+
+/* Button Styling */
+.button {
+  display: inline-block;
+  background-color: #508D4E;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #80AF81;
+}
+
+/* Loading and Error Messages */
+.loading-text,
+.error-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #508D4E;
+  margin-top: 50px;
+}
+
+/* Responsiveness: Adjust grid for smaller screens */
+@media (max-width: 1024px) {
+  .card-stack {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for mid-sized screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .card-stack {
+    grid-template-columns: 1fr; /* 1 column for small screens */
+  }
+}
+
+/* Specific Styles for LanguageDetails */
 .language-details-container {
-  padding: 2rem;
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f6f8;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 40px 20px;
+  width: 100%;
+  height: 100%; /* Ensures full viewport height */
+  min-height: 100vh; /* Ensures full viewport height */
 }
 
 .language-card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  max-width: 700px;
-  width: 100%;
+  background-color: #f0ffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
   text-align: center;
+  width: 100%;
+  max-width: 800px; /* Maximum width of the card */
+  margin: 0 auto; /* Center the card horizontally */
 }
 
 .language-name {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #42a5f5;
-  margin-bottom: 1rem;
+  font-size: 2.2em;
+  color: #508D4E;
+  font-family: 'Pacifico', cursive;
+  margin-bottom: 15px;
 }
 
 .language-description {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 2rem;
+  font-size: 1.2em;
+  color: #4a4a4a;
+  margin-bottom: 30px;
+  line-height: 1.5;
 }
 
+/* Lessons List */
 .lessons-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
+  font-size: 1.8em;
+  color: #508D4E;
+  margin-top: 40px;
 }
 
 .lessons-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 .lesson-item {
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
 
 .lesson-link {
-  font-size: 1.1rem;
-  color: #ff6f61;
+  font-size: 1.2em;
+  color: #508D4E;
+  
   text-decoration: none;
-  font-weight: 500;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
 .lesson-link:hover {
-  background-color: #ff6f61;
-  color: #fff;
-  transform: scale(1.05);
+  color: #80AF81;
+  
 }
 
+/* Loading/Error for Language Details */
 .loading-text,
 .error-text {
-  font-size: 1.2rem;
-  color: #ff6f61;
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* LessonDetails.css */
-
-/* Container for the entire lesson details page */
-.lesson-details-container {
-  padding: 2rem;
-  font-family: 'Arial', sans-serif;
-  background-color: #f9fafb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Card-style container for the lesson details */
-.lesson-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  padding: 2.5rem;
-  max-width: 800px;
-  width: 100%;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-/* Hover effect for the lesson card */
-.lesson-card:hover {
-  transform: scale(1.05);
-}
-
-/* Styling for the lesson name */
-.lesson-name {
-  font-size: 2.2rem;
+  font-size: 1.5em;
   font-weight: bold;
-  color: #42a5f5;
-  margin-bottom: 1rem;
+  color: #508D4E;
+  margin-top: 50px;
 }
 
-/* Styling for the lesson description */
-.lesson-description {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 2rem;
-}
-
-/* Styling for the video section */
-.video-section {
-  margin-top: 2rem;
-  text-align: left;
-}
-
-.video-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-/* Styling for video elements */
-.lesson-video {
-  width: 100%;
-  max-width: 100%;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-
-/* Loading and error text */
-.loading-text,
-.error-text {
-  font-size: 1.2rem;
-  color: #ff6f61;
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* Discussion2.css */
-
-/* Main container for the discussions section */
-.discussion-container {
-  padding: 2rem;
-  background-color: #f8f9fa;
-  font-family: 'Arial', sans-serif;
-  color: #333;
-}
-
-/* Header for the discussion section */
-.discussion-header {
-  font-size: 2rem;
-  color: #42a5f5;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+/* Specific Styles for Register and SignIn Pages */
+.form-container {
+  width: 400px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* Loading and no discussions text */
-.loading-text,
-.no-discussions-text,
-.no-issues-text {
-  font-size: 1.2rem;
-  color: #ff6f61;
-  text-align: center;
-  margin-top: 20px;
+.form-container h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #508D4E;
+  font-family: 'Pacifico', cursive;
 }
 
-/* Styling for the discussions list */
-.discussions-list {
-  margin-top: 1.5rem;
+.form-container .error-text {
+  color: red;
+  margin-bottom: 15px;
+  font-size: 14px;
 }
 
-/* Title for the list of discussions */
-.discussions-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-/* List styling */
-.discussion-items {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 15px;
+  background-color: white;
+  padding:20px
 }
 
-/* Each individual discussion item */
-.discussion-item {
-  width: 100%;
+.input-group {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
-/* Button styling for each discussion */
-.discussion-btn {
-  background-color: #42a5f5;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  width: 100%;
-  text-align: center;
+label {
+  font-size: 16px;
+  color: #555;
 }
 
-/* Button hover effect */
-.discussion-btn:hover {
-  background-color: #3578e5;
-  transform: scale(1.05);
-}
-
-/* Additional hover effect for the list items */
-.discussion-item:hover .discussion-btn {
-  background-color: #3578e5;
-  transform: scale(1.05);
-}
-
-/* Responsive design: Stacked buttons on smaller screens */
-@media (max-width: 600px) {
-  .discussion-items {
-    flex-direction: column;
-  }
-
-  .discussion-btn {
-    width: 90%;
-    margin: 0 auto;
-  }
-}
-
-.issue-card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  color: #333;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  width: 650px;
-}
-
-.issue-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Issue Form Styles */
-.issue-form {
-  margin-top: 20px;
-  margin-left: -470px;
-}
-
-.issue-form input {
-  width: 40%;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 96%;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  outline: none;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  
 }
 
-.issue-form input:focus {
-  border-color: #19d7ca;
-}
-
-.issue-form button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  background-color: #19d7ca;
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background-color: #6A9C89;
   color: white;
   border: none;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.issue-form button:hover {
-  background-color: #17b0a2; /* Darker teal for hover */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* Styles for Empty Issue State */
-.issue-container.empty {
-  background-color: #fff3f3; /* Light red background for empty or unsubmitted issues */
-  border-left: 5px solid #ff6f61; /* Red border for emphasis */
+button:hover {
+  background-color: #80AF81;
 }
 
-.reply-btn.empty {
-  color: #ff6f61; /* Red color for reply button when no comment is provided */
+/* Loading/Error for Register/SignIn Pages */
+.loading-text,
+.error-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #508D4E;
+  margin-top: 50px;
 }
 
-/* General Responsiveness */
-@media (max-width: 768px) {
-  .discussion-container {
-    padding: 15px;
-  }
-
-  .issue-header h3 {
-    font-size: 16px;
-  }
-
-  .reply-form input,
-  .issue-form input {
-    font-size: 12px;
-  }
-
-  .reply-form button,
-  .issue-form button {
-    font-size: 12px;
+/* Responsiveness for Form */
+@media (max-width: 600px) {
+  .form-container {
+    width: 90%; /* Allow the form to take up more space on small screens */
   }
 }
 
-/* Default issue container */
-.issue-container {
-  background-color: #1f1f1f; /* Dark gray */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  margin-bottom: 15px;
-  color: #e0e0e0; /* Light text */
+
+.home-title {
+  font-family: 'Pacifico', cursive;
+  color: #218bf5ac; /* Sweet pink color for cuteness */
+  font-size: 50px;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), 0 0 25px rgba(7, 251, 214, 0.6); /* Cute glow effect */
+  letter-spacing: 2px; /* Adding space between letters for a playful feel */
+  padding: 20px;
+  margin-top: 20px;
+  transition: transform 0.3s ease-in-out, color 0.3s ease; /* Smooth transition for hover effect */
 }
 
-/* Issue container with replies */
-.issue-container.has-replies {
-  background-color: #263238; /* Darker gray */
-  border-left: 5px solid #ff9800; /* Bright amber border */
+/* Hover Effect: Scales the title and changes the color */
+.home-title:hover {
+  transform: scale(1.1); /* Slightly enlarges on hover */
+  color: #5e94e4; /* Changes to a golden yellow on hover */
+  text-shadow: 2px 2px 10px rgba(99, 191, 234, 0.8), 0 0 30px rgba(197, 237, 244, 0.7); /* Glow effect intensifies */
 }
 
-/* Reply container */
-.reply-container {
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  background-color: #37474f; /* Dark slate gray */
-  color: #b0bec5; /* Lighter text for dark mode */
+.motivational-phrase{
+  font-family: 'pacifico';
+  font-size: 20px;
+  color:#084f67;
 }
 
-/* Nested reply container */
-.reply-container.nested-reply {
-  background-color: #455a64; /* Slate gray */
-  margin-left: 20px;
-}
 
-.reply-icons {
+
+/* Search Controls */
+.search-controls {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px; /* Adjust the space between icons */
+  gap: 10px; /* Space between the input and button */
+  margin-bottom: 30px; /* Margin for spacing */
+  max-width: 900px; /* Limit the width of the search area */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.reply-2:hover {
-  background-color: grey;
+/* Search Dropdown */
+.search-dropdown {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #ffffff;
+  width: 200px;
+  max-width: 100%;
+  transition: border-color 0.3s ease;
 }
 
-.reply-btn:hover {
-  cursor: pointer;
-  color: grey;
+.search-dropdown:focus {
+  border-color: #508D4E;
+  outline: none;
 }
 
-.speaker-icon:hover {
-  cursor: pointer;
+/* Search Input */
+.search-input {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #ffffff;
+  width: 250px;
+  max-width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #508D4E;
+  outline: none;
+}
+
+/* Search Button */
+.search-button {
+  padding: 10px 20px;
+  background-color: #508D4E;
   color: white;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.search-button:hover {
+  background-color: #80AF81;
+}
 
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .search-controls {
+    flex-direction: column;
+    gap: 15px; /* Stack elements vertically on small screens */
+  }
 
-.container .card-stack .card {
-  position: relative; /* Allows positioning of difficulty badge */
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .search-dropdown,
+  .search-input,
+  .search-button {
+    width: 100%; /* Full width for small screens */
+    max-width: none; /* Remove max-width for responsiveness */
+  }
 }
 
 .difficulty-badge {
@@ -876,112 +410,381 @@ video {
   font-weight: bold;
 }
 
-
-
-/* .search-input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-} */
-
-
-.search-controls {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+.card-icon img {
+  width: 90px; 
+  height: 90px; 
+  object-fit: contain;
+  border: 2px solid rgb(27, 194, 8); /* Light border */
+  border-radius: 50%; /* Circular shape */
+  background-color: #73c8a3; /* Light green background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(27, 194, 8, 0.5); /* 3D shadow effect */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.search-dropdown {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.create-lang-form-container {
+  background-color: white;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  margin: 0 auto;
 }
 
-.search-input {
-  flex-grow: 1;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.create-lang-form-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5em;
+  color: #508D4E;
+  margin-bottom: 20px;
 }
 
-
-
-.card-stack {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
-  align-content: center;
-}
-
-
-
-.container {
-  padding: 20px;
-}
-
-.card-stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centers the cards in the row */
-  gap: 20px; /* Adjust the spacing between cards */
-  margin-top: 20px;
-}
-
-.card {
-  width: 200px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.create-lang-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+.create-lang-form-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.create-lang-form-label {
+  font-size: 16px;
+  color: #555;
+}
+
+.create-lang-form-input,
+.create-lang-form-textarea,
+.create-lang-lesson-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.create-lang-form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.create-lang-lessons-section {
+  margin-top: 30px;
+}
+
+.create-lang-lessons-title {
+  font-size: 1.8em;
+  color: #508D4E;
+}
+
+.create-lang-lesson-field {
+  margin-bottom: 20px;
+}
+
+.create-lang-video-upload {
+  margin-top: 15px;
+}
+
+.create-lang-video-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.create-lang-video-item {
+  margin: 5px 0;
+}
+
+.create-lang-video-input {
+  margin-top: 10px;
+}
+
+.create-lang-add-lesson-btn,
+.create-lang-remove-lesson-btn {
+  background-color: #508D4E;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.create-lang-add-lesson-btn:hover,
+.create-lang-remove-lesson-btn:hover {
+  background-color: #80AF81;
+}
+
+.create-lang-submit-btn {
+  background-color: #508D4E;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-lang-submit-btn:hover {
+  background-color: #80AF81;
+}
+
+
+.nav-container {
+  background-color: #1A5319; /* Dark background */
+  padding: 1rem; /* Padding around the nav */
+  position: fixed; /* Fixes the nav to the top of the viewport */
+  top: 0; /* Positions the nav at the top */
+  left: 0; /* Aligns the nav to the left */
+  width: 100%; /* Full width of the viewport */
+  z-index: 1000; /* Ensures the nav is above other content */
+}
+.nav {
+  display: flex;
+  justify-content: space-between; /* Space between items */
+  align-items: center; /* Center items vertically */
+}
+.nav-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  display: flex; /* Display items in a row */
+}
+.nav-list li {
+  margin: 0 1rem; /* Space between list items */
+}
+.nav-link {
+  color: #ECF0F1; /* Light text color */
+  text-decoration: none; /* Remove underline */
+  font-weight: 500; /* Slightly bolder text */
+  transition: color 0.3s; /* Smooth color transition */
+}
+.nav-link:hover {
+  color: #3498DB; /* Change color on hover */
+}
+.nav-link svg {
+  margin-right: 0.5rem; /* Space between icon and text */
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .nav-list {
+    flex-direction: column; /* Stack items vertically on small screens */
+    align-items: flex-start; /* Align items to the start */
+  }
+  .nav-list li {
+    margin: 0.5rem 0; /* Space between items */
+  }
+}
+/* Additional body padding to avoid content being hidden behind the fixed nav */
+body {
+  padding-top: 70px; /* Adjust this value based on the height of your nav */
+}
+.greeting {
+  position: center; /* Position greeting absolutely */
+  top: 8rem; /* Distance from the top */
+  left: 1rem; /* Distance from the left */
+}
+.hide {
+  display: none;
+  font-size: 2.5rem; /* Make myDiv larger */
+    font-weight: bold; /* Make myDiv bold */
+    margin: 2rem 0;
+}
+.hi{
+  font-size: 2rem; /* Make the greeting larger */
+  font-weight: bold; /* Make the greeting bold */
+  color: #2C3E50; /* Dark text color */
+}
+/* From Uiverse.io by yaroslavas2001 */
+.parent-wrapper {
+  display: flex; /* Use flexbox to arrange Link components side by side */
+  justify-content: center; /* Center the items horizontally */
+  align-items: center; /* Center the items vertically */
+  gap: 1em; /* Optional: space between the buttons */
+}
+.btn, .btn1 {
+  height: 4em;
+  width: 12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0px solid black;
+  cursor: pointer;
+}
+.wrapper, .wrapper1 {
+  height: 2em;
+  width: 8em; /* You can adjust the width as needed */
+  position: relative;
+  background: transparent;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
-
-
-.card-icon {
-  font-size: 40px;
-  margin-bottom: 10px;
+.text {
+  font-size: 17px;
+  z-index: 1;
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.5s ease;
 }
-
-.button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
+.flower {
+  display: grid;
+  grid-template-columns: 1em 1em;
+  position: absolute;
+  transition: grid-template-columns 0.8s ease;
 }
-
-
-
-
-.progress-overview {
-  padding: 20px;
+.flower1 {
+  top: -12px;
+  left: -13px;
+  transform: rotate(5deg);
 }
-
-.progress-table {
-  width: 100%;
-  border-collapse: collapse;
+.flower2 {
+  bottom: -5px;
+  left: 8px;
+  transform: rotate(35deg);
 }
-
-.progress-table th,
-.progress-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+.flower3 {
+  bottom: -15px;
+  transform: rotate(0deg);
 }
-
-.progress-table th {
-  background-color: #f4f4f4;
-  font-weight: bold;
+.flower4 {
+  top: -14px;
+  transform: rotate(15deg);
+}
+.flower5 {
+  right: 11px;
+  top: -3px;
+  transform: rotate(25deg);
+}
+.flower6 {
+  right: -15px;
+  bottom: -15px;
+  transform: rotate(30deg);
+}
+.petal {
+  height: 1em;
+  width: 1em;
+  border-radius: 40% 70% / 7% 90%;
+  background: linear-gradient(#5D9E5C, #79B877);
+  border: 0.5px solid #72AA70;
+  z-index: 0;
+  transition: width 0.8s ease, height 0.8s ease;
+}
+.two {
+  transform: rotate(90deg);
+}
+.three {
+  transform: rotate(270deg);
+}
+.four {
+  transform: rotate(180deg);
+}
+.btn:hover .petal {
+  background: linear-gradient(#3F6B3E, #79B877);
+  border: 0.5px solid #72AA70;
+}
+.btn:hover .flower {
+  grid-template-columns: 1.5em 1.5em;
+}
+.btn:hover .flower .petal {
+  width: 1.5em;
+  height: 1.5em;
+}
+.btn:hover .text {
+  background: rgba(255, 255, 255, 0.4);
+}
+.btn:hover div.flower1 {
+  animation: 15s linear 0s normal none infinite running flower1;
+}
+.btn1:hover .petal {
+  background: linear-gradient(#3F6B3E, #79B877);
+  border: 0.5px solid #72AA70;
+}
+.btn1:hover .flower {
+  grid-template-columns: 1.5em 1.5em;
+}
+.btn1:hover .flower .petal {
+  width: 1.5em;
+  height: 1.5em;
+}
+.btn1:hover .text {
+  background: rgba(255, 255, 255, 0.4);
+}
+.btn1:hover div.flower1 {
+  animation: 15s linear 0s normal none infinite running flower1;
+}
+@keyframes flower1 {
+  0% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(365deg);
+  }
+}
+.btn:hover div.flower2 {
+  animation: 13s linear 1s normal none infinite running flower2;
+}
+@keyframes flower2 {
+  0% {
+    transform: rotate(35deg);
+  }
+  100% {
+    transform: rotate(-325deg);
+  }
+}
+.btn:hover div.flower3 {
+  animation: 16s linear 1s normal none infinite running flower3;
+}
+@keyframes flower3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.btn:hover div.flower4 {
+  animation: 17s linear 1s normal none infinite running flower4;
+}
+@keyframes flower4 {
+  0% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(375deg);
+  }
+}
+.btn:hover div.flower5 {
+  animation: 20s linear 1s normal none infinite running flower5;
+}
+@keyframes flower5 {
+  0% {
+    transform: rotate(25deg);
+  }
+  100% {
+    transform: rotate(-335deg);
+  }
+}
+.btn:hover div.flower6 {
+  animation: 15s linear 1s normal none infinite running flower6;
+}
+@keyframes flower6 {
+  0% {
+    transform: rotate(30deg);
+  }
+  100% {
+    transform: rotate(390deg);
+  }
+}
+.nav-logo {
+  width: 140px; /* Set the width of the logo */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 10px; /* Space below the logo */
+  display: block; /* Ensure it behaves like a block element */
+   /* Center the logo horizontally if needed */
+  margin-right: auto; /* Center the logo horizontally if needed */
 }
