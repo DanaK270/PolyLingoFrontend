@@ -856,8 +856,6 @@ video {
 
 
 
-
-
 .container .card-stack .card {
   position: relative; /* Allows positioning of difficulty badge */
   padding: 1rem;
@@ -963,6 +961,7 @@ video {
   text-decoration: none;
   border-radius: 5px;
 }
+
 
 
 

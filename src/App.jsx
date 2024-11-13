@@ -1,4 +1,3 @@
-
 import "./App.css"
 import { useState, useEffect } from "react"
 import { useNavigate, Route, Routes } from "react-router-dom"
@@ -98,10 +97,8 @@ const App = () => {
           path="/languages/:languageId"
           element={<LanguageDetails issues={issues} setIssues={setIssues} />}
         />
-        <Route
-          path="/lessons/:lessonId"
-          element={<LessonDetails issues={issues} setIssues={setIssues} />}
-        />
+         <Route path="/lessons/:lessonId" element={<LessonDetails issues={issues} setIssues={setIssues} userId={user?.id} />}/>
+         <Route path="userNote" element={<UserNotes userId={user?.id} />} />
 
         <Route
           path="/discuss"
