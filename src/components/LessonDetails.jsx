@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Discussion2 from './Discussion2';
+import UserNotes from './UserNotes';
 
-
-const LessonDetails = ({ issues, setIssues }) => {
+const LessonDetails = ({ issues, setIssues, userId }) => {
   const { lessonId } = useParams();
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -41,7 +40,9 @@ const LessonDetails = ({ issues, setIssues }) => {
             ))}
           </div>
         )}
+
         <Discussion2 selectedLesson={lesson} issues={issues} setIssues={setIssues} />
+        <UserNotes userId={userId} />
       </div>
     </div>
   );
