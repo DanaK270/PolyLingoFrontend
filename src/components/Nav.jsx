@@ -28,6 +28,11 @@ const Nav = ({ user, handleLogOut }) => {
             Add Language
           </Link>
         </li>
+        <li>
+          <Link to="/exercises/add" className="nav-link">
+            Add Excercise
+          </Link>
+        </li>
       </ul>
     </nav>
   );
@@ -51,7 +56,11 @@ const Nav = ({ user, handleLogOut }) => {
            Translate
           </Link>
         </li>
-        
+        <li>
+          <Link to="/progress-overview" className="nav-link">
+           Progress
+          </Link>
+        </li>
         <li>
           <Link onClick={handleLogOut} to="/sign-in" className="nav-link">
             Sign Out
