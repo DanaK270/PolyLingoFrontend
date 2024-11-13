@@ -24,73 +24,6 @@ const Main = () => {
     fetchLanguages();
   }, []);
 
-  // Filter languages based on search term and selected filter type
-  const filteredLanguages = languages.filter(language => {
-    const fieldToSearch = language[searchType].toLowerCase();
-    return fieldToSearch.includes(searchTerm.toLowerCase());
-  });
-
-  return (
-    <div className="container">
-      <h2>Languages</h2>
-
-      {/* Dropdown to choose search type */}
-      <div className="search-controls">
-        <select
-          value={searchType}
-          onChange={(e) => setSearchType(e.target.value)}
-          className="search-dropdown"
-        >
-          <option value="languagename">Language Name</option>
-          <option value="difficulties">Difficulty</option>
-        </select>
-
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder={`Search by ${searchType}...`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-      </div>
-
-      <div className="card-stack">
-  {filteredLanguages.length > 0 ? (
-    filteredLanguages.map((language) => (
-      <div key={language._id} className="card">
-        <div className="difficulty-badge">{language.difficulties}</div>
-        <div className="card-icon">🌐</div>
-        <h3>{language.languagename}</h3>
-        <p>{language.description}</p>
-        <Link to={`/languages/${language._id}`} className="button">
-          View Lessons
-        </Link>
-      </div>
-    ))
-  ) : (
-    <p>No languages found.</p>
-  )}
-</div>
-
-    </div>
-  );
-};
-
-export default Main;
-
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-
-const BASE_URL = 'http://localhost:3001' // Ensure this is defined
-
-const Main = () => {
-  const [languages, setLanguages] = useState([])
-  const [userProgress, setUserProgress] = useState([])
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-
   useEffect(() => {
     const fetchLanguagesAndProgress = async () => {
       setLoading(true)
@@ -119,7 +52,7 @@ const Main = () => {
     fetchLanguagesAndProgress()
   }, [])
 
-  // Function to start learning a new language
+
   const startLearning = async (languageId) => {
     try {
       const token = localStorage.getItem('token')
@@ -178,22 +111,50 @@ const Main = () => {
     }
   }
 
+
+  // Filter languages based on search term and selected filter type
+  const filteredLanguages = languages.filter(language => {
+    const fieldToSearch = language[searchType].toLowerCase();
+    return fieldToSearch.includes(searchTerm.toLowerCase());
+  });
+
   return (
     <div className="container">
       <h2>Languages</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="card-stack">
-          {languages.map((language) => (
-            <div key={language._id} className="card">
-              <div className="card-icon">🌐</div>
-              <h3>{language.languagename}</h3>
-              <p>{language.description}</p>
-              <Link to={`/languages/${language._id}`} className="button">
-                View Lessons
-              </Link>
-              <Link to={`/update/${language._id}`} className="button">
+
+      {/* Dropdown to choose search type */}
+      <div className="search-controls">
+        <select
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+          className="search-dropdown"
+        >
+          <option value="languagename">Language Name</option>
+          <option value="difficulties">Difficulty</option>
+        </select>
+
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder={`Search by ${searchType}...`}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      <div className="card-stack">
+  {filteredLanguages.length > 0 ? (
+    filteredLanguages.map((language) => (
+      <div key={language._id} className="card">
+        <div className="difficulty-badge">{language.difficulties}</div>
+        <div className="card-icon">🌐</div>
+        <h3>{language.languagename}</h3>
+        <p>{language.description}</p>
+        <Link to={`/languages/${language._id}`} className="button">
+          View Lessons
+        </Link>
+        <Link to={`/update/${language._id}`} className="button">
                 Update
               </Link>
 
@@ -210,13 +171,16 @@ const Main = () => {
               >
                 Delete
               </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
+      </div>
+    ))
+  ) : (
+    <p>No languages found.</p>
+  )}
+</div>
 
-export default Main
+    </div>
+  );
+};
+
+export default Main;
 
