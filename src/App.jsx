@@ -21,6 +21,7 @@ import { CheckSession } from './services/auth'
 import ExerciseList from './pages/ExerciseList'
 import ExerciseForm from './pages/ExerciseForm'
 import ExerciseDetail from './pages/ExerciseDetail'
+import ProgressDetails from './pages/ProgressDetails'
 import axios from 'axios'
 
 const App = () => {
@@ -124,6 +125,7 @@ const App = () => {
         />
         <Route path="userNote" element={<UserNotes userId={user?.id} />} />
         <Route path="/progress-overview" element={<UserProgressOverview />} />
+        <Route path="/progress/:progressId" element={<ProgressDetails />} />
       </Routes>
     </div>
   )

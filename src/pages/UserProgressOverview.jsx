@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const UserProgressOverview = () => {
   const [progressData, setProgressData] = useState([])
@@ -62,7 +63,12 @@ const UserProgressOverview = () => {
           <tbody>
             {progressData.map((progress) => (
               <tr key={progress._id}>
-                <td>{progress.language_id?.languagename || 'N/A'}</td>
+                <td>
+                  {' '}
+                  <Link to={`/progress/${progress._id}`}>
+                    {progress.language_id?.languagename || 'N/A'}
+                  </Link>
+                </td>
                 <td>{progress.totalPoints}</td>
                 <td>{progress.streak}</td>
                 <td>
