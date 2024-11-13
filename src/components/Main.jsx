@@ -8,7 +8,7 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State to hold the search term
   const [searchType, setSearchType] = useState("languagename"); // State to hold the filter type
-
+  const BASE_URL = 'http://localhost:3001' // Ensure this is defined
   useEffect(() => {
     const fetchLanguages = async () => {
       setLoading(true);
@@ -110,7 +110,6 @@ const Main = () => {
       alert('Failed to delete language. Please try again.')
     }
   }
-
 
   // Filter languages based on search term and selected filter type
   const filteredLanguages = languages.filter(language => {
