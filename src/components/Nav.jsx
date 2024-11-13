@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 // import { GoProjectRoadmap } from "react-icons/go";
 // import { MdEventNote } from "react-icons/md";
 // import { CgProfile } from "react-icons/cg";
+import logo from "../images/logo.png"
 
 const Nav = ({ user, handleLogOut }) => {
   const isAdmin = user && user.role === "admin";
 
   const adminOptions = (
     <nav className="nav">
+      <img src={logo} alt="Logo" className="nav-logo" />
       <ul className="nav-list">
         <li>
           <Link onClick={handleLogOut} to="/sign-in" className="nav-link">
@@ -32,7 +34,13 @@ const Nav = ({ user, handleLogOut }) => {
 
   const userOptions = (
     <nav className="nav">
+      <img src={logo} alt="Logo" className="nav-logo" />
       <ul className="nav-list">
+      <li>
+          <Link to="/" className="nav-link">
+           Home
+          </Link>
+        </li>
      <li>
           <Link to="/main" className="nav-link">
             Languages List
@@ -55,6 +63,7 @@ const Nav = ({ user, handleLogOut }) => {
 
   const publicOptions = (
     <nav className="nav">
+      <img src={logo} alt="Logo" className="nav-logo" />
       <ul className="nav-list">
          <li>
           <Link to="/" className="nav-link">
