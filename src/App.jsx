@@ -105,6 +105,7 @@ const App = () => {
               issues={issues}
               setIssues={setIssues}
               userId={user?.id}
+              user={user}
             />
           }
         />

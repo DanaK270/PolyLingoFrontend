@@ -4,12 +4,12 @@ import axios from 'axios'
 import Discussion2 from './Discussion2'
 import UserNotes from './UserNotes'
 
-const LessonDetails = ({ issues, setIssues, userId }) => {
+const LessonDetails = ({ issues, setIssues, userId, user }) => {
   const { lessonId } = useParams()
   const [lesson, setLesson] = useState(null)
   const [loading, setLoading] = useState(false)
   const [languageId, setLanguageId] = useState(null)
-  // const navigate = useNavigate()
+  const [userProgress, setUserProgress] = useState(null)
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -33,17 +33,33 @@ const LessonDetails = ({ issues, setIssues, userId }) => {
         )
         const languages = response.data
 
-        // Find language containing the current lesson
         const language = languages.find((lang) =>
           lang.fields.some((field) => field._id === lessonId)
         )
         if (language) {
           setLanguageId(language._id)
+          await fetchUserProgress(language._id) // Fetch user progress once languageId is determined
         } else {
           console.error('Language not found for the given lesson ID')
         }
       } catch (error) {
         console.error('Error fetching languages', error)
+      }
+    }
+
+    const fetchUserProgress = async (languageId) => {
+      try {
+        const userProgressResponse = await axios.get(
+          `http://localhost:3001/userProgress/${languageId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          }
+        )
+        setUserProgress(userProgressResponse?.data.data)
+      } catch (error) {
+        console.error('Error fetching user progress', error)
       }
     }
 
@@ -53,35 +69,34 @@ const LessonDetails = ({ issues, setIssues, userId }) => {
 
   const completeLesson = async () => {
     try {
-      // Get user progress ID for the specific language
-      const userProgressResponse = await axios.get(
-        `http://localhost:3001/userProgress/${languageId}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        }
-      )
-
-      const userProgressId = userProgressResponse.data.data._id
-
-      // Update user progress by adding the completed lesson and incrementing the streak
+      const userProgressId = userProgress._id
       await axios.put(
         `http://localhost:3001/userProgress/stats/${userProgressId}`,
         {
           completedLessonId: lessonId,
           points: 10,
-          streak: userProgressResponse.data.data.streak + 1
+          streak: userProgress.streak + 1
         },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }
       )
-
       alert('Lesson marked as completed!')
+
+      // Update userProgress state locally to reflect completion
+      setUserProgress({
+        ...userProgress,
+        completedLessons: [...userProgress.completedLessons, { _id: lessonId }]
+      })
     } catch (error) {
       console.error('Error completing the lesson', error)
       alert('Failed to mark the lesson as complete.')
     }
   }
+
+  const isLessonCompleted = userProgress?.completedLessons.some(
+    (lesson) => lesson._id === lessonId
+  )
 
   if (loading) return <p className="loading-text">Loading...</p>
   if (!lesson) return <p className="error-text">Lesson not found.</p>
@@ -104,11 +119,14 @@ const LessonDetails = ({ issues, setIssues, userId }) => {
             ))}
           </div>
         )}
-
-        <button className="complete-lesson-button" onClick={completeLesson}>
-          Complete Lesson
-        </button>
-
+        {user.role !== 'admin' &&
+          (isLessonCompleted ? (
+            <p className="completed-text">Lesson Completed</p>
+          ) : (
+            <button className="complete-lesson-button" onClick={completeLesson}>
+              Complete Lesson
+            </button>
+          ))}
         <Discussion2
           selectedLesson={lesson}
           issues={issues}
