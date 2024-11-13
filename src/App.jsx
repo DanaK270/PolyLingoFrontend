@@ -108,6 +108,7 @@ const App = () => {
             />
           }
         />
+        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
 
         <Route
           path="/discuss"
