@@ -92,7 +92,7 @@ const App = () => {
         />
         <Route
           path="/main"
-          element={<Main issues={issues} setIssues={setIssues} />}
+          element={<Main issues={issues} setIssues={setIssues} user={user} />}
         />
         <Route
           path="/languages/:languageId"

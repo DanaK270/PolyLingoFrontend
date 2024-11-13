@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
-const Main = () => {
+const Main = ({ user }) => {
   const [languages, setLanguages] = useState([])
   const [userProgress, setUserProgress] = useState([])
   const [loading, setLoading] = useState(false)
@@ -151,26 +151,33 @@ const Main = () => {
               <div className="card-icon">🌐</div>
               <h3>{language.languagename}</h3>
               <p>{language.description}</p>
-              <Link to={`/languages/${language._id}`} className="button">
-                View Lessons
-              </Link>
-              <Link to={`/update/${language._id}`} className="button">
-                Update
-              </Link>
+              {user.role === 'admin' && (
+                <>
+                  <Link to={`/languages/${language._id}`} className="button">
+                    View Lessons
+                  </Link>
+                  <Link to={`/update/${language._id}`} className="button">
+                    Update
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(language._id)}
+                    className="button delete-button"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
 
-              <button
-                onClick={() => startLearning(language._id)}
-                className="button"
-              >
-                Start Learning
-              </button>
-
-              <button
-                onClick={() => handleDelete(language._id)}
-                className="button delete-button"
-              >
-                Delete
-              </button>
+              {user.role === 'user' && (
+                <Link to={`/languages/${language._id}`} className="button">
+                  <button
+                    onClick={() => startLearning(language._id)}
+                    className="button"
+                  >
+                    Start Learning
+                  </button>
+                </Link>
+              )}
             </div>
           ))
         ) : (
