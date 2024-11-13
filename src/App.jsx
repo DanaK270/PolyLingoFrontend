@@ -1,6 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { useNavigate, Route, Routes } from 'react-router-dom'
+import ChatBot from 'react-chatbotify'
 import Register from './pages/Register'
 import Nav from './components/Nav'
 import Home from './pages/Home'
@@ -63,9 +64,73 @@ const App = () => {
       })()
     }
   }, [])
-
+  const flow = {
+    start: {
+      message: () => {
+        const seenBefore = localStorage.getItem('example_welcome')
+        return seenBefore
+          ? `Welcome back ${seenBefore}!`
+          : 'Welcome there! What is your name?'
+      },
+      function: (params) => localStorage.setItem('example_welcome', params.userInput),
+      path: 'say_assist'
+    },
+    say_assist: {
+      message: (params) => `${params.userInput}, How can I assist you today?`,
+      path: 'ask_language'
+    },
+    ask_language: {
+      message: 'Which language would you like to learn today?',
+      options: ['Beginner', 'Intermediate', 'Advanced'],
+      path: 'ask_level'
+    },
+    ask_level: {
+      message: 'What’s your current level in the selected language?',
+      checkboxes: {
+        items: ['Beginner', 'Intermediate', 'Advanced'],
+        max: 1
+      },
+      function: (params) => setForm((prevForm) => ({ ...prevForm, level: params.userInput })),
+      path: 'ask_learning_goals'
+    },
+    ask_learning_goals: {
+      message: 'What skills would you like to improve?',
+      checkboxes: {
+        items: ['Writing', 'Reading', 'Speaking'],
+        max: 2
+      },
+      function: (params) => setForm((prevForm) => ({ ...prevForm, skills: params.userInput })),
+      path: 'show_recommendation'
+    },
+    show_recommendation: {
+      message: 'Based on your inputs, here’s our recommendation!',
+      component: () => {
+        const { level, skills } = form || {};
+        return (
+          <div>
+            <p>Selected Level: {level || 'N/A'}</p>
+            <p>Skills to Focus On: {skills ? skills.join(', ') : 'N/A'}</p>
+            <p>Recommended Path: Beginner Essentials</p>
+          </div>
+        );
+      },
+      path: 'start'
+    }
+  }
+  
   return (
+    
     <div>
+      <ChatBot
+        settings={{
+          voice: { disabled: false },
+          botBubble: { simStream: true },
+          chatHistory: { storageKey: 'example_basic_form' },
+          audio: { disabled: false, defaultToggledOn: true, tapToPlay: true },
+          theme: { primaryColor: '#2A2A2A', secondaryColor: '#2A2A2A' }
+        }}
+        flow={flow}
+      />
       <Nav user={user} handleLogOut={handleLogOut} />
       <Routes>
         <Route path="/" element={<Home />} />
