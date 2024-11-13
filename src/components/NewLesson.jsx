@@ -65,9 +65,9 @@ const CreateLanguageForm = () => {
     try {
       // Send the data to your backend API
       const response = await axios.post(`${BASE_URL}/language/languages`, formData);
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Language data submitted successfully!");
-        navigate("/success"); // Navigate on success, or handle success feedback
+        navigate("/main"); // Navigate on success, or handle success feedback
       } else {
         console.error("Error submitting language data");
       }

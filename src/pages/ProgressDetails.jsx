@@ -38,6 +38,11 @@ const ProgressDetails = () => {
   console.log('totalLessons ', totalLessons)
   const incompleteLessons = totalLessons - completedLessons
 
+  // Calculate progress percentage
+  const progressPercentage = ((completedLessons / totalLessons) * 100).toFixed(
+    2
+  )
+
   const pieData = {
     labels: ['Completed Lessons', 'Incomplete Lessons'],
     datasets: [
@@ -53,6 +58,7 @@ const ProgressDetails = () => {
     <div>
       <h2>Progress Details for {progressData.language_id.languagename}</h2>
       <Pie data={pieData} />
+      <p>Progress: {progressPercentage}%</p>
     </div>
   )
 }
