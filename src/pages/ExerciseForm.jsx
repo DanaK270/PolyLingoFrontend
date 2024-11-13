@@ -26,7 +26,7 @@ const ExerciseForm = () => {
 
   const fetchLessons = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/lessons')
+      const res = await axios.get('http://localhost:3001/language/lessons')
       setLessons(res.data)
     } catch (error) {
       console.error('Error fetching lessons:', error)
@@ -72,13 +72,13 @@ const ExerciseForm = () => {
           <option value="">Select a lesson</option>
           {lessons.map((lesson) => (
             <option key={lesson._id} value={lesson._id}>
-              {lesson.title}
+              {lesson.name}
             </option>
           ))}
         </select>
 
         <label>Question:</label>
-        <textarea
+        <input
           name="question"
           value={exerciseData.question}
           onChange={handleChange}
@@ -104,8 +104,8 @@ const ExerciseForm = () => {
           />
         ))}
 
-        <label>Hints:</label>
-        <textarea
+        <label>Hint:</label>
+        <input
           name="hints"
           value={exerciseData.hints}
           onChange={handleChange}

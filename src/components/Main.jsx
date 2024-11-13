@@ -151,7 +151,7 @@ const Main = ({ user }) => {
               <div className="card-icon">🌐</div>
               <h3>{language.languagename}</h3>
               <p>{language.description}</p>
-              {user.role === 'admin' && (
+              {user?.role === 'admin' && (
                 <>
                   <Link to={`/languages/${language._id}`} className="button">
                     View Lessons
@@ -168,7 +168,7 @@ const Main = ({ user }) => {
                 </>
               )}
 
-              {user.role === 'user' && (
+              {user?.role === 'user' && (
                 <Link to={`/languages/${language._id}`} className="button">
                   <button
                     onClick={() => startLearning(language._id)}
