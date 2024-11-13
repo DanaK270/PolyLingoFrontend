@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import Discussion2 from './Discussion2'
+
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import Discussion2 from './Discussion2';
+
 
 const LessonDetails = ({ issues, setIssues }) => {
   const { lessonId } = useParams()
@@ -14,16 +16,14 @@ const LessonDetails = ({ issues, setIssues }) => {
 
   useEffect(() => {
     const fetchLesson = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const response = await axios.get(
-          `http://localhost:3001/language/lesson/${lessonId}`
-        )
-        setLesson(response.data)
+        const response = await axios.get(`http://localhost:3001/language/lesson/${lessonId}`);
+        setLesson(response.data);
       } catch (error) {
-        console.error('Error fetching lesson details', error)
+        console.error('Error fetching lesson details', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
@@ -125,12 +125,7 @@ const LessonDetails = ({ issues, setIssues }) => {
           <div className="video-section">
             <h4 className="video-title">Videos</h4>
             {lesson.video.map((video, index) => (
-              <video
-                key={index}
-                className="lesson-video"
-                src={video.url}
-                controls
-              />
+              <video key={index} className="lesson-video" src={video.url} controls />
             ))}
           </div>
         )}
@@ -150,7 +145,7 @@ const LessonDetails = ({ issues, setIssues }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LessonDetails
+export default LessonDetails;
