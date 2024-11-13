@@ -26,7 +26,7 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     const replyText = replies[parentReplyId || issueId];
     if (!replyText?.trim()) return;
 
-    const userId = localStorage.getItem('userId'); // The userId for posting the comment (typically the logged-in user)
+    const userId = localStorage.getItem('userId');
 
     try {
       const res = await axios.post(
@@ -36,7 +36,6 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
 
       const newReply = res.data;
 
-      // Fetch user name for the new reply's userId
       await fetchUserName(newReply.user);
 
       setIssues((prevIssues) => {
@@ -88,9 +87,9 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formState.comment.trim()) return;  // Avoid submitting empty comment
+    if (!formState.comment.trim()) return;
 
-    const userId = localStorage.getItem('userId');  // Again, this could be the logged-in user who is posting a new issue
+    const userId = localStorage.getItem('userId');
     try {
       const formData = { ...formState, discussionId: `${id}`, userId };
       const response = await axios.post('http://localhost:3001/issues', formData);
@@ -101,9 +100,8 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     }
   };
 
-  // Fetch user name for a given userId
   const fetchUserName = async (userId) => {
-    if (users[userId]) return; // If we already have this user's name, skip the request
+    if (users[userId]) return;
 
     try {
       const response = await axios.get(`http://localhost:3001/users/${userId}`);
@@ -124,7 +122,7 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
     const replyKey = level > 0 ? reply._id : issueId;
     const createdAt = reply.createdAt ? new Date(reply.createdAt).toDateString() : "Invalid Date";
     const commentText = reply.comment || 'No comment available.';
-    const userName = users[reply.user] || 'Unknown User';  // Default to "Unknown User" if not fetched
+    const userName = users[reply.user] || 'Unknown User';
 
     useEffect(() => {
       if (!users[reply.user] && reply.user) {
@@ -182,39 +180,47 @@ const DiscussionIssues = ({ issues, setIssues, id }) => {
 
   return (
     <div className="discussion-container">
-      {issues.map((issue) => (
-        <div key={issue._id} className="issue-container">
-          <div className="issue-header">
-            <h3>{issue.comment}</h3>
-            <div className="reply-btn" onClick={() => setShowMainReplyInput((prev) => ({
-              ...prev,
-              [issue._id]: !prev[issue._id],
-            }))}>
-              <HiReply />
+      {issues.map((issue) => {
+        const userName = users[issue.user] || 'Unknown User';
+
+        useEffect(() => {
+          if (!users[issue.user]) fetchUserName(issue.user);
+        }, [issue.user]);
+
+        return (
+          <div key={issue._id} className="issue-container">
+            <div className="issue-header">
+              <h3>{userName}: {issue.comment}</h3>
+              <div className="reply-btn" onClick={() => setShowMainReplyInput((prev) => ({
+                ...prev,
+                [issue._id]: !prev[issue._id],
+              }))}>
+                <HiReply />
+              </div>
             </div>
+
+            {showMainReplyInput[issue._id] && (
+              <div className="reply-form">
+                <input
+                  type="text"
+                  value={replies[issue._id] || ''}
+                  onChange={(e) => handleReplyChange(issue._id, e)}
+                  placeholder="Write a reply..."
+                />
+                <button onClick={() => submitReply(issue._id)}>Submit</button>
+              </div>
+            )}
+
+            {issue.replies && issue.replies.length > 0 && (
+              <div className="replies-container">
+                {issue.replies.map((reply) => (
+                  <Reply key={reply._id} issueId={issue._id} reply={reply} />
+                ))}
+              </div>
+            )}
           </div>
-
-          {showMainReplyInput[issue._id] && (
-            <div className="reply-form">
-              <input
-                type="text"
-                value={replies[issue._id] || ''}
-                onChange={(e) => handleReplyChange(issue._id, e)}
-                placeholder="Write a reply..."
-              />
-              <button onClick={() => submitReply(issue._id)}>Submit</button>
-            </div>
-          )}
-
-          {issue.replies && issue.replies.length > 0 && (
-            <div className="replies-container">
-              {issue.replies.map((reply) => (
-                <Reply key={reply._id} issueId={issue._id} reply={reply} />
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+        );
+      })}
       <form onSubmit={handleSubmit} className="new-issue-form">
         <textarea
           id="comment"
