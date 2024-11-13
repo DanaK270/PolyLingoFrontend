@@ -101,7 +101,11 @@ const App = () => {
         <Route
           path="/lessons/:lessonId"
           element={
-            <LessonDetails issues={issues} setIssues={setIssues} user={user} />
+            <LessonDetails
+              issues={issues}
+              setIssues={setIssues}
+              userId={user?.id}
+            />
           }
         />
 
