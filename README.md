@@ -56,7 +56,8 @@ To set up the project locally:
 
 #### ERD
 
-![image](https://github.com/user-attachments/assets/454f6f58-0d66-49cd-b112-bf1fb455a82a)
+![image](https://github.com/user-attachments/assets/d7939bf4-695e-4982-b44d-a95b00fa27b2)
+
 
 
 ---
