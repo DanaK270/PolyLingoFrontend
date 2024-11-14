@@ -59,59 +59,77 @@ const ExerciseForm = () => {
   }
 
   return (
-    <div>
-      <h2>{id ? 'Edit' : 'Add'} Exercise</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Lesson:</label>
-        <select
-          name="lessonId"
-          value={exerciseData.lessonId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select a lesson</option>
-          {lessons.map((lesson) => (
-            <option key={lesson._id} value={lesson._id}>
-              {lesson.name}
-            </option>
-          ))}
-        </select>
+    <div className="exercise-form-container">
+      <h2 className="exercise-form-title">{id ? 'Edit' : 'Add'} Exercise</h2>
+      <form onSubmit={handleSubmit} className="exercise-form">
+        
+        <div className="exercise-form-input-group">
+          <label className="exercise-form-label">Lesson:</label>
+          <select
+            name="lessonId"
+            value={exerciseData.lessonId}
+            onChange={handleChange}
+            required
+            className="exercise-form-input"
+          >
+            <option value="">Select a lesson</option>
+            {lessons.map((lesson) => (
+              <option key={lesson._id} value={lesson._id}>
+                {lesson.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <label>Question:</label>
-        <input
-          name="question"
-          value={exerciseData.question}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Correct Answer:</label>
-        <input
-          type="text"
-          name="correctAnswer"
-          value={exerciseData.correctAnswer}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Options:</label>
-        {exerciseData.options.map((option, index) => (
+        <div className="exercise-form-input-group">
+          <label className="exercise-form-label">Question:</label>
           <input
-            key={index}
-            type="text"
-            value={option}
-            onChange={(e) => handleOptionChange(index, e.target.value)}
+            name="question"
+            value={exerciseData.question}
+            onChange={handleChange}
+            required
+            className="exercise-form-input"
           />
-        ))}
+        </div>
 
-        <label>Hint:</label>
-        <input
-          name="hints"
-          value={exerciseData.hints}
-          onChange={handleChange}
-        />
+        <div className="exercise-form-input-group">
+          <label className="exercise-form-label">Correct Answer:</label>
+          <input
+            type="text"
+            name="correctAnswer"
+            value={exerciseData.correctAnswer}
+            onChange={handleChange}
+            required
+            className="exercise-form-input"
+          />
+        </div>
 
-        <button type="submit">Save</button>
+        <div className="exercise-form-input-group">
+          <label className="exercise-form-label">Options:</label>
+          {exerciseData.options.map((option, index) => (
+            <input
+              key={index}
+              type="text"
+              value={option}
+              onChange={(e) => handleOptionChange(index, e.target.value)}
+              className="exercise-form-input"
+            />
+          ))}
+        </div>
+
+        <div className="exercise-form-input-group">
+          <label className="exercise-form-label">Hint:</label>
+          <input
+            name="hints"
+            value={exerciseData.hints}
+            onChange={handleChange}
+            className="exercise-form-input"
+          />
+        </div>
+
+        <button type="submit" className="exercise-form-submit-btn">
+          Save
+        </button>
       </form>
     </div>
   )

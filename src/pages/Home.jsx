@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default function Home() {
+export default function Home({user}) {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState('');
   const [language, setLanguage] = useState('en-us'); // Example default language
@@ -35,14 +35,16 @@ export default function Home() {
     <>
     <div className='motivational'>
       <div className='greeting'>
-        <h1>Hello! Welcome to PolyLingo</h1>
+        <h1 className='welcome'>PolyLingo</h1>
       </div>
    
     
-      <h1>Motivational Phrase</h1>
-      {error && <p>{error}</p>}
-      {phrase ? <p>{phrase}</p> : <p>Loading...</p>}
+      <h1 className="motivational-title">Motivational Phrase</h1>
+{error && <p className="custom-font">{error}</p>}  {/* Styled with custom font */}
+{phrase ? <p className="custom-font">{phrase}</p> : <p className="custom-font">Loading...</p>}  {/* Styled with custom font */}
+
     </div>
+    {!user&&(
     <div class="parent-wrapper">
     <Link to="/sign-in" className="btn1"> {/* Changed button to Link */}
         <div className="wrapper1">
@@ -129,8 +131,10 @@ export default function Home() {
   </div>
 </Link>
 </div>
+)}
 
    
     </>
   );
 }
+

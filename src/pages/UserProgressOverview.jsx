@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const UserProgressOverview = () => {
-  const [progressData, setProgressData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [progressData, setProgressData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchUserProgress()
-  }, [])
+    fetchUserProgress();
+  }, []);
 
   const fetchUserProgress = async () => {
     try {
       const response = await axios.get('http://localhost:3001/userProgress', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      })
-      setProgressData(response.data.data)
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setProgressData(response.data.data);
     } catch (error) {
-      console.error('Error fetching user progress', error)
+      console.error('Error fetching user progress', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
         `http://localhost:3001/userProgress/${id}`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
-      )
+      );
 
       if (response.data.success) {
-        setProgressData(progressData.filter((progress) => progress._id !== id))
+        setProgressData(progressData.filter((progress) => progress._id !== id));
       } else {
-        console.error(response.data.message)
+        console.error(response.data.message);
       }
     } catch (error) {
-      console.error('Error deleting user progress', error)
+      console.error('Error deleting user progress', error);
     }
-  }
+  };
 
-  if (loading) return <p>Loading user progress...</p>
+  if (loading) return <p>Loading user progress...</p>;
 
   return (
     <div className="progress-overview">
@@ -64,8 +64,7 @@ const UserProgressOverview = () => {
             {progressData.map((progress) => (
               <tr key={progress._id}>
                 <td>
-                  {' '}
-                  <Link to={`/progress/${progress._id}`}>
+                  <Link to={`/progress/${progress._id}`} className="table-link">
                     {progress.language_id?.languagename || 'N/A'}
                   </Link>
                 </td>
@@ -97,7 +96,7 @@ const UserProgressOverview = () => {
         </table>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default UserProgressOverview
+export default UserProgressOverview;
