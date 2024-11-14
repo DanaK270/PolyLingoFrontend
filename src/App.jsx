@@ -1,32 +1,28 @@
 import './App.css'
 import { useState, useEffect } from 'react'
-import { useNavigate, Route, Routes } from 'react-router-dom'
 import ChatBot from 'react-chatbotify'
+import { useNavigate, Route, Routes } from 'react-router-dom'
 import Register from './pages/Register'
-import Nav from './components/Nav'
 import Home from './pages/Home'
 import SignIn from './pages/Signin'
 import Discussion from './components/Discussion'
 import Translate from './components/Translation'
-import UserNotes from './components/UserNotes'
 import Discussion2 from './components/Discussion2'
 import Main from './components/Main'
 import LessonDetails from './components/LessonDetails'
 import LanguageDetails from './components/LanguageDetails'
-import CreateLanguageForm from './components/NewLesson'
-import EditLanguageForm from './components/EditLanguageForm'
-import UpdateLanguageForm from './components/EditLanguageForm'
-import UserProgressOverview from './pages/UserProgressOverview'
+import CreateLanguageForm from './components/newLesson'
 import { CheckSession } from './services/auth'
 import ExerciseList from './pages/ExerciseList'
 import ExerciseForm from './pages/ExerciseForm'
 import ExerciseDetail from './pages/ExerciseDetail'
-import ProgressDetails from './pages/ProgressDetails'
 import axios from 'axios'
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [issues, setIssues] = useState([])
+  const [form, setForm] = useState({}) // Initialize form state here
+
   let navigate = useNavigate()
 
   const handleLogOut = () => {
@@ -48,8 +44,8 @@ const App = () => {
   const getIssues = async () => {
     try {
       let res = await axios.get('http://localhost:3001/issues')
-      console.log('Fetched issues:', res.data) // Verify the data structure
-      setIssues(res.data) // This should update your issues state
+      console.log('Fetched issues:', res.data)
+      setIssues(res.data)
     } catch (err) {
       console.log('Error fetching issues:', err)
     }
@@ -64,6 +60,7 @@ const App = () => {
       })()
     }
   }, [])
+
   const flow = {
     start: {
       message: () => {
@@ -72,7 +69,8 @@ const App = () => {
           ? `Welcome back ${seenBefore}!`
           : 'Welcome there! What is your name?'
       },
-      function: (params) => localStorage.setItem('example_welcome', params.userInput),
+      function: (params) =>
+        localStorage.setItem('example_welcome', params.userInput),
       path: 'say_assist'
     },
     say_assist: {
@@ -81,7 +79,7 @@ const App = () => {
     },
     ask_language: {
       message: 'Which language would you like to learn today?',
-      options: ['Beginner', 'Intermediate', 'Advanced'],
+      options: ['English', 'French', 'Spanish'],
       path: 'ask_level'
     },
     ask_level: {
@@ -90,7 +88,8 @@ const App = () => {
         items: ['Beginner', 'Intermediate', 'Advanced'],
         max: 1
       },
-      function: (params) => setForm((prevForm) => ({ ...prevForm, level: params.userInput })),
+      function: (params) =>
+        setForm((prevForm) => ({ ...prevForm, level: params.userInput })),
       path: 'ask_learning_goals'
     },
     ask_learning_goals: {
@@ -99,27 +98,29 @@ const App = () => {
         items: ['Writing', 'Reading', 'Speaking'],
         max: 2
       },
-      function: (params) => setForm((prevForm) => ({ ...prevForm, skills: params.userInput })),
+      function: (params) =>
+        setForm((prevForm) => ({ ...prevForm, skills: params.userInput })),
       path: 'show_recommendation'
     },
     show_recommendation: {
-      message: 'Based on your inputs, here’s our recommendation!',
-      component: () => {
-        const { level, skills } = form || {};
-        return (
-          <div>
-            <p>Selected Level: {level || 'N/A'}</p>
-            <p>Skills to Focus On: {skills ? skills.join(', ') : 'N/A'}</p>
-            <p>Recommended Path: Beginner Essentials</p>
-          </div>
-        );
+    
+      function: async (params) => {
+        await params.injectMessage("Sit tight! I'll send you right there!")
+        setTimeout(() => {
+          window.open(
+            'http://localhost:5173/languages/6734ac355d580cd8d2a44008'
+          )
+        }, 1000)
       },
+      path: 'repeat'
+    },
+    repeat: {
+      transition: { duration: 3000 },
       path: 'start'
     }
   }
-  
+
   return (
-    
     <div>
       <ChatBot
         settings={{
@@ -131,13 +132,10 @@ const App = () => {
         }}
         flow={flow}
       />
-      <Nav user={user} handleLogOut={handleLogOut} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} />} />
         <Route path="register" element={<Register />} />
-        <Route path="/update/:languageId" element={<UpdateLanguageForm />} />
-
         <Route
           path="/discuss"
           element={
@@ -148,16 +146,14 @@ const App = () => {
             />
           }
         />
-
         <Route path="/translate" element={<Translate />} />
-
         <Route
           path="/discuss2"
           element={<Discussion2 issues={issues} setIssues={setIssues} />}
         />
         <Route
           path="/main"
-          element={<Main issues={issues} setIssues={setIssues} user={user} />}
+          element={<Main issues={issues} setIssues={setIssues} />}
         />
         <Route
           path="/languages/:languageId"
@@ -165,26 +161,7 @@ const App = () => {
         />
         <Route
           path="/lessons/:lessonId"
-          element={
-            <LessonDetails
-              issues={issues}
-              setIssues={setIssues}
-              userId={user?.id}
-              user={user}
-            />
-          }
-        />
-        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
-
-        <Route
-          path="/discuss"
-          element={
-            <Discussion
-              getIssues={getIssues}
-              issues={issues}
-              setIssues={setIssues}
-            />
-          }
+          element={<LessonDetails issues={issues} setIssues={setIssues} />}
         />
         <Route path="/exercises" element={<ExerciseList />} />
         <Route path="/exercises/add" element={<ExerciseForm />} />
@@ -194,9 +171,6 @@ const App = () => {
           path="/languages/createlanguage"
           element={<CreateLanguageForm />}
         />
-        <Route path="userNote" element={<UserNotes userId={user?.id} />} />
-        <Route path="/progress-overview" element={<UserProgressOverview />} />
-        <Route path="/progress/:progressId" element={<ProgressDetails />} />
       </Routes>
     </div>
   )
