@@ -33,15 +33,11 @@ const ProgressDetails = () => {
   if (!progressData) return <p>Loading...</p>
 
   const completedLessons = progressData.completedLessons.length
-  console.log('completedLessons ', completedLessons)
   const totalLessons = progressData.language_id.fields.length
-  console.log('totalLessons ', totalLessons)
   const incompleteLessons = totalLessons - completedLessons
 
   // Calculate progress percentage
-  const progressPercentage = ((completedLessons / totalLessons) * 100).toFixed(
-    2
-  )
+  const progressPercentage = ((completedLessons / totalLessons) * 100).toFixed(2)
 
   const pieData = {
     labels: ['Completed Lessons', 'Incomplete Lessons'],
@@ -55,10 +51,12 @@ const ProgressDetails = () => {
   }
 
   return (
-    <div>
+    <div className="progress-details-container">
       <h2>Progress Details for {progressData.language_id.languagename}</h2>
-      <Pie data={pieData} />
-      <p>Progress: {progressPercentage}%</p>
+      <div className="chart-container">
+        <Pie data={pieData} />
+      </div>
+      <p className="progress-percentage">Progress: {progressPercentage}%</p>
     </div>
   )
 }
