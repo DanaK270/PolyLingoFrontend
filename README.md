@@ -63,4 +63,4 @@ To set up the project locally:
 
 ### **Credits**
 
-No additional credits yet
+[No additional credits yet](https://github.com/Uncover-F/TAS)
