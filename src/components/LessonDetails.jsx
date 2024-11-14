@@ -3,16 +3,13 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Discussion2 from './Discussion2'
 import UserNotes from './UserNotes'
-import SolveExercise from './SolveExercise'
 
 const LessonDetails = ({ issues, setIssues, userId, user }) => {
   const { lessonId } = useParams()
   const [lesson, setLesson] = useState(null)
-  const [exercises, setExercises] = useState([])
   const [loading, setLoading] = useState(false)
   const [languageId, setLanguageId] = useState(null)
   const [userProgress, setUserProgress] = useState(null)
-  const [totalPoints, setTotalPoints] = useState(0)
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -26,21 +23,6 @@ const LessonDetails = ({ issues, setIssues, userId, user }) => {
         console.error('Error fetching lesson details', error)
       } finally {
         setLoading(false)
-      }
-    }
-
-    console.log('leeson id', lessonId)
-
-    const fetchExercises = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/exercise/lesson/${lessonId}`
-        )
-        console.log('response.data.exercises', response.data)
-        console.log('response.data.exercises', response.data.data)
-        setExercises(response.data.data)
-      } catch (error) {
-        console.error('Error fetching exercises', error)
       }
     }
 
@@ -65,8 +47,6 @@ const LessonDetails = ({ issues, setIssues, userId, user }) => {
       }
     }
 
-    console.log('l id', languageId)
-
     const fetchUserProgress = async (languageId) => {
       try {
         const userProgressResponse = await axios.get(
@@ -84,13 +64,8 @@ const LessonDetails = ({ issues, setIssues, userId, user }) => {
     }
 
     fetchLesson()
-    fetchExercises()
     fetchLanguageId()
   }, [lessonId])
-
-  const handleAnswerSubmit = (points) => {
-    setTotalPoints((prevPoints) => prevPoints + points)
-  }
 
   const completeLesson = async () => {
     try {
@@ -99,7 +74,7 @@ const LessonDetails = ({ issues, setIssues, userId, user }) => {
         `http://localhost:3001/userProgress/stats/${userProgressId}`,
         {
           completedLessonId: lessonId,
-          points: totalPoints,
+          points: 10,
           streak: userProgress.streak + 1
         },
         {
@@ -144,20 +119,6 @@ const LessonDetails = ({ issues, setIssues, userId, user }) => {
             ))}
           </div>
         )}
-
-        <div className="exercises-section">
-          <h4>Exercises</h4>
-          {exercises.map((exercise) => (
-            <SolveExercise
-              key={exercise._id}
-              exercise={exercise}
-              onAnswerSubmit={handleAnswerSubmit}
-              isCompleted={isLessonCompleted}
-            />
-          ))}
-          <p>Total Points: {totalPoints}</p>
-        </div>
-
         {user.role !== 'admin' &&
           (isLessonCompleted ? (
             <p className="completed-text">Lesson Completed</p>

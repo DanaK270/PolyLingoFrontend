@@ -1585,48 +1585,46 @@ Interactive mobile menu
   color: #888;
 }
 
-.reply-icons {
+/* .reply-icons {
   display: flex;
   gap: 10px;
   margin-top: 5px;
-}
+} */
 
-.reply-icon,
+/* .reply-icon,
 .speaker-icon {
   font-size: 1.2rem;
   cursor: pointer;
   color: #007bff;
-}
-
+} */
+/* 
 .reply-icon:hover,
 .speaker-icon:hover {
   color: #0056b3;
-}
+} */
 
 .nested-replies {
   margin-top: 10px;
 }
 
-/* Input Field Styles for Main and Nested Replies */
+/* Input Field Styles for Main and Nested Replies
 .reply-form {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
+} */
 
-.reply-form input {
+/* .reply-form input {
   width: 100%;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 1rem;
   outline: none;
-}
+} */
 
-.reply-form input:focus {
-  border-color: #007bff;
-}
+/* 
 
 .reply-form button {
   padding: 8px 12px;
@@ -1640,29 +1638,29 @@ Interactive mobile menu
 
 .reply-form button:hover {
   background-color: #0056b3;
-}
+} */
 
 /* Styling for Reply Inputs (Visible/Hidden) */
-.reply-form {
+/* .reply-form {
   display: none;
 }
 
 .reply-form.visible {
   display: flex;
-}
+} */
 
 /* Nested reply styles */
-.nested-reply {
+/* .nested-reply {
   margin-left: 30px; /* Indentation for nested replies */
-}
 
-.nested-reply .reply-content {
+
+/* .nested-reply .reply-content {
   background-color: #f1f1f1;
-}
-
+} */
+/* 
 .nested-reply .reply-header {
   font-weight: 600;
-}
+} */ */
 
 /* Styling for empty issue state */
 .no-issues-text {
